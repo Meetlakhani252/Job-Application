@@ -1,0 +1,298 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}</style><style>:root{color-scheme:light dark;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}}:root[data-theme="dark"]{color-scheme:dark;--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}:root[data-theme="light"]{color-scheme:light}@media print{:root,:root[data-theme="dark"]{color-scheme:light;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}}body{background:var(--md-bg);color:var(--md-text);max-width:720px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:10px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro','Segoe UI',sans-serif;overflow-wrap:break-word}body>:first-child{margin-top:0}h1,h2,h3,h4,h5,h6{margin:6px 0 0;line-height:1.25;font-weight:600;text-wrap:balance}h1{font-size:1.35em}h2{font-size:1.15em;color:var(--md-muted)}h3,h4,h5,h6{font-size:1em}p,ul,ol,blockquote,table,pre,hr{margin:0}strong{font-weight:600}a{color:var(--md-link);text-decoration:none}a:hover{text-decoration:underline}ul,ol{display:flex;flex-direction:column;gap:6px;padding-left:22px}ul{list-style:disc}ol{list-style:decimal}:is(li,td,th)>*+:is(p,ul,ol,blockquote){margin-top:6px}blockquote{display:flex;flex-direction:column;gap:10px;border-left:2px solid var(--md-rule);padding-left:10px;color:var(--md-muted)}:not(pre)>code{background:var(--md-fill);padding:1px 3px;border-radius:4px;font:.92em 'SF Mono',ui-monospace,Menlo,Consolas,monospace}a>code{background:none;color:inherit}pre{background:var(--md-fill);padding:10px 12px;border-radius:6px;overflow-x:auto;font:12px/1.5 'SF Mono',ui-monospace,Menlo,Consolas,monospace;margin-block:4px}pre code{background:none;padding:0;font:inherit}table{width:100%;border-collapse:separate;border-spacing:2px;font:inherit}th,td{padding:6px 8px;border-radius:3px;text-align:left;vertical-align:top}th{background:var(--md-fill-strong);font-weight:600}td{background:var(--md-fill)}:is(th,td) :not(pre)>code{background:transparent}hr{border:0;border-top:1px solid var(--md-rule-strong);margin-block:10px}img{max-width:100%;height:auto;border-radius:4px}</style>
+</head><body>
+<h1>PRD: Internship &amp; Job Listing Portal</h1>
+<p><strong>Type:</strong> Internship mini project (Full Stack) | <strong>Level:</strong> Beginner | <strong>Duration:</strong> 2 weeks | <strong>Version:</strong> 2
+<strong>Source:</strong> Internship Mini Project Assignment PDF + product decisions confirmed by the author</p>
+<hr>
+<h2>1. Overview</h2>
+<p>A basic web platform where users can browse internship/job opportunities, search and filter them, view details, and submit applications. Admins log in to manage opportunities and view applications.</p>
+<p><strong>Purpose of the project (from the assignment):</strong> help the intern understand frontend, backend, database, and API integration.</p>
+<h2>2. Goals and Non-Goals</h2>
+<p><strong>Goals</strong></p>
+<ul>
+<li>Users can view, search, filter, and open opportunities.</li>
+<li>Users can apply to an opportunity and get a saved confirmation they can open again later.</li>
+<li>Admins can log in, add, edit, delete opportunities and view applications.</li>
+<li>Deliver all final submission items (see Section 10).</li>
+<li>The project is evaluated overall (frontend, backend, database, integration), not on one part only.</li>
+</ul>
+<p><strong>Non-goals (post-project, not in this scope)</strong></p>
+<ul>
+<li>User authentication</li>
+<li>Resume file upload</li>
+<li>Email notification</li>
+</ul>
+<h2>3. Users</h2>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>What they do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Applicant (user)</td>
+<td>Browses opportunities and submits applications (no login)</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td>Logs in, manages opportunities, views applications</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Suggested Tech Stack (as suggested in the assignment)</h2>
+<ul>
+<li><strong>Frontend:</strong> React.js</li>
+<li><strong>Backend:</strong> Node.js + Express.js (REST APIs)</li>
+<li><strong>Database:</strong> MongoDB</li>
+</ul>
+<h2>5. Functional Requirements</h2>
+<h3>5.1 User features</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U1</td>
+<td>View the list of opportunities (all shown, newest first; no pagination)</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>Search opportunities by <strong>title only</strong></td>
+</tr>
+<tr>
+<td>U3</td>
+<td>Filter opportunities by domain (fixed dropdown)</td>
+</tr>
+<tr>
+<td>U4</td>
+<td>View opportunity details (including its Application Link)</td>
+</tr>
+<tr>
+<td>U5</td>
+<td>Submit an application through an in-app form</td>
+</tr>
+<tr>
+<td>U6</td>
+<td>See an application confirmation with a <strong>unique application ID/link</strong></td>
+</tr>
+<tr>
+<td>U7</td>
+<td>Open the saved application again later using that ID/link</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 Admin features</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A0</td>
+<td>Admin login (admin account stored in the database); admin features require login</td>
+</tr>
+<tr>
+<td>A1</td>
+<td>Add an opportunity</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Edit an opportunity</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Delete an opportunity</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>View applications (one list of all applications, showing which opportunity each belongs to)</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Data Requirements</h2>
+<h3>6.1 Opportunity</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Job/Internship Title</td>
+<td>Searched by U2</td>
+</tr>
+<tr>
+<td>Company Name</td>
+<td>Not searched</td>
+</tr>
+<tr>
+<td>Type</td>
+<td><strong>Job</strong> or <strong>Internship</strong> (field only; filtering by type is not required)</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Fixed dropdown: Web Development, Data &amp; AI, UI/UX Design, Marketing, Other</td>
+</tr>
+<tr>
+<td>Location</td>
+<td></td>
+</tr>
+<tr>
+<td>Experience</td>
+<td>Simple text field</td>
+</tr>
+<tr>
+<td>Description</td>
+<td></td>
+</tr>
+<tr>
+<td>Application Link</td>
+<td>Shown on the details page, alongside the in-app form</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 Application</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Phone number</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Resume link</td>
+<td>Optional (a URL, not a file upload)</td>
+</tr>
+<tr>
+<td>Short message</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>Application ID</td>
+<td>Unique, generated by the system</td>
+</tr>
+<tr>
+<td>Opportunity</td>
+<td>Linked to the opportunity applied for</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Duplicate applications (same email, same opportunity) are blocked.</li>
+<li>Each application is saved, and shown again through its unique ID/link.</li>
+</ul>
+<h3>6.3 Admin account</h3>
+<ul>
+<li>Stored in the database; used for admin login (A0).</li>
+</ul>
+<h2>7. Core User Flows</h2>
+<p><strong>Applicant:</strong> Opportunity list → search by title / filter by domain → details → application form → confirmation with unique ID/link → reopen later via the ID/link.</p>
+<p><strong>Admin:</strong> Login → opportunity list → add / edit / delete → view applications.</p>
+<h2>8. Timeline (from the assignment)</h2>
+<p><strong>Week 1: Planning, frontend and backend setup</strong></p>
+<ul>
+<li>Understand requirements and plan the application flow</li>
+<li>UI design and project structure</li>
+<li>React setup; opportunity listing and details pages; search and filter UI</li>
+<li>Node + Express setup; REST APIs; MongoDB models; DB connection; basic opportunity APIs</li>
+</ul>
+<p><strong>Week 2: Integration, features and finalization</strong></p>
+<ul>
+<li>Connect frontend with backend APIs</li>
+<li>Opportunity CRUD; application submission; search and filtering; application confirmation</li>
+<li>Test the complete app; fix bugs; improve UI/UX</li>
+<li>README.md and documentation</li>
+<li>Deploy (if applicable)</li>
+<li>Screenshots and final presentation</li>
+</ul>
+<blockquote>
+<p>Admin login is not in the PDF's weekly plan. It was added to scope by the author, so plan it into the Week 1/Week 2 work.</p>
+</blockquote>
+<h2>9. Constraints</h2>
+<ul>
+<li>Implement the project yourself; documentation and learning resources are allowed.</li>
+<li>Do not copy a complete project from the internet.</li>
+<li>The intern must understand all submitted code.</li>
+<li>A mentor guides and supports throughout.</li>
+</ul>
+<h2>10. Final Submission Checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> GitHub repository</li>
+<li><input disabled="" type="checkbox"> Complete source code</li>
+<li><input disabled="" type="checkbox"> Database structure</li>
+<li><input disabled="" type="checkbox"> README.md</li>
+<li><input disabled="" type="checkbox"> Project report</li>
+<li><input disabled="" type="checkbox"> Project screenshots</li>
+<li><input disabled="" type="checkbox"> Live demo (if deployed)</li>
+<li><input disabled="" type="checkbox"> Final presentation</li>
+</ul>
+<h2>11. Post-Project Backlog (deferred bonus features)</h2>
+<ol>
+<li>User authentication</li>
+<li>Resume upload</li>
+<li>Email notification</li>
+</ol>
+<h2>12. Assumptions (defaults chosen, change if the mentor says otherwise)</h2>
+<ul>
+<li>Opportunity list shows everything at once, newest first.</li>
+<li>The Application Link is displayed on the details page; the in-app form is the main way to apply.</li>
+<li>Only Name, Phone, Email are required; no other validation rules were requested.</li>
+<li>Admin sees one list of all applications.</li>
+</ul>
+<h2>13. Open Questions (still undecided)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Is deployment expected, and where? (left for later)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Expected format and length of the project report and final presentation? (left for later)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Admin login: which fields (email or username + password), and how is the first admin account created?</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Should email and phone formats be checked, or only that they are filled?</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Formal success criteria beyond &quot;evaluated overall&quot;?</td>
+</tr>
+</tbody>
+</table>
+
+</body></html>
