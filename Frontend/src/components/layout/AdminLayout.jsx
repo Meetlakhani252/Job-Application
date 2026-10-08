@@ -31,7 +31,7 @@ function AdminLayout() {
         </Box>
         <Divider />
         <List>
-          <ListItemButton onClick={() => navigate('/admin/opportunities')}>
+          <ListItemButton onClick={() => navigate('/admin')}>
             <ListItemText primary="Opportunities" />
           </ListItemButton>
           <ListItemButton onClick={() => navigate('/admin/applications')}>

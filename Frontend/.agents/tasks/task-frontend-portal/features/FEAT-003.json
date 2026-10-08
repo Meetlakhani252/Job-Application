@@ -1,0 +1,32 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Implement all admin pages: AdminLogin, AdminOpportunities (list + delete with ConfirmDialog + Snackbar), AdminOpportunityForm (add/edit with React Hook Form, pre-fill on edit), AdminApplications (MUI Table). These pages render inside AdminLayout via ProtectedRoute (wired in FEAT-002). Depends on FEAT-001 (shared components) and FEAT-002 (routing + AdminLayout outlet).",
+  "status": "completed",
+  "steps": [
+    "Step 1 — Overwrite src/pages/admin/AdminLogin/AdminLogin.jsx: React Hook Form with email and password fields. On submit call useAuth().login(email,password). Show error Alert with err.response?.data?.message. Navigate to /admin on success. If admin already logged in redirect to /admin. Render MUI Container centered on screen.",
+    "Step 2 — Overwrite src/pages/admin/AdminLogin/AdminLogin.module.css: full-height centered card layout.",
+    "Step 3 — Overwrite src/pages/admin/AdminOpportunities/AdminOpportunities.jsx: fetch GET /opportunities (use getOpportunities()) on mount. State: opportunities, loading, error, deleteTargetId (for dialog), snackbar {open, message, severity}. Render: Button 'Add Opportunity' → navigate('/admin/opportunities/new'). MUI List or Table of opportunities with title, companyName, type Chip. Each row has Edit icon (→ /admin/opportunities/:id/edit) and Delete icon (opens ConfirmDialog). ConfirmDialog onConfirm calls deleteOpportunity(id) then refetches. Snackbar shows result. Show Loader/ErrorMessage/EmptyState appropriately.",
+    "Step 4 — Overwrite src/pages/admin/AdminOpportunities/AdminOpportunities.module.css: header row layout, action icons spacing.",
+    "Step 5 — Overwrite src/pages/admin/AdminOpportunityForm/AdminOpportunityForm.jsx: useParams for id (undefined = create mode, defined = edit mode). If edit mode: fetch getOpportunityById(id) then call reset(data) to pre-fill. React Hook Form fields: title*, companyName*, type* (MUI Select with TYPES), domain* (MUI Select with DOMAINS), location*, experience*, description* (multiline TextField), applicationLink*. All marked required. On submit: if edit call updateOpportunity(id,data) else call createOpportunity(data). Navigate to /admin on success. Show error Snackbar. Disable submit while loading.",
+    "Step 6 — Overwrite src/pages/admin/AdminOpportunityForm/AdminOpportunityForm.module.css: form layout, field spacing.",
+    "Step 7 — Overwrite src/pages/admin/AdminApplications/AdminApplications.jsx: fetch getAllApplications() on mount. MUI Table with columns: Application ID, Name, Email, Phone, Resume Link (anchor, clickable), Message, Opportunity (opportunity.title + opportunity.companyName — NOTE: the GET /admin/applications response data Application objects may have opportunity as ObjectId only; if the opportunity field is populated show title+company, otherwise show the ID string). Show Loader/ErrorMessage/EmptyState. Note in findings if opportunity is not populated in the response.",
+    "Step 8 — Overwrite src/pages/admin/AdminApplications/AdminApplications.module.css: table container styles.",
+    "Step 9 — Final build check: run npm run build. Fix any remaining import errors, missing files, or JSX issues. Ensure no console.log statements remain in any file. Ensure ConfirmModal.jsx (the filename) imports correctly wherever ConfirmDialog is used in admin pages — import path must reference ConfirmModal.jsx."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with no errors",
+    "AdminLogin page submits credentials and redirects on success",
+    "AdminOpportunities shows list with edit and delete actions",
+    "Delete action shows ConfirmDialog before calling deleteOpportunity",
+    "AdminOpportunityForm pre-fills fields when editing an existing opportunity",
+    "AdminApplications renders a table with all required columns",
+    "No console.log statements in any file",
+    "No hardcoded URLs (all requests go through axiosInstance)"
+  ],
+  "verification": [
+    "cd 'd:\\Internship Project\\Frontend' && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": "1. Backend gap: GET /admin/applications returns Application objects where the 'opportunity' field may be a raw ObjectId string rather than a populated Opportunity object. The UI handles both cases defensively — if it is an object, title+companyName are shown; if it is a raw string/ObjectId, it is displayed as-is. Backend should consider populating the opportunity field on this endpoint. 2. AdminLayout sidebar had a broken link to '/admin/opportunities' (unregistered route); corrected to '/admin' which maps to AdminOpportunities."
+}
