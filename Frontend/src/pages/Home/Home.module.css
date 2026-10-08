@@ -1,0 +1,9 @@
+.container {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.filterBar {
+  margin-bottom: 2rem;
+  align-items: center;
+}

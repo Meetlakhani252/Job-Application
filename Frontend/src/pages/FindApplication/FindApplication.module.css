@@ -1,0 +1,10 @@
+.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

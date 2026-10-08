@@ -1,0 +1,18 @@
+.container {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.fieldList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

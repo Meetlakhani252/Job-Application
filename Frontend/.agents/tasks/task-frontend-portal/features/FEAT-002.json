@@ -1,0 +1,36 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Implement all applicant-facing pages: Home (list+search+filter), OpportunityDetails (detail + inline ApplyForm), ApplySuccess (confirmation + copy link), ViewApplication (view saved application), FindApplication (lookup form), NotFound (404). Also complete AppRoutes.jsx with correct paths and missing FindApplication route. Depends on FEAT-001 (shared components and API functions must exist first).",
+  "status": "completed",
+  "steps": [
+    "Step 1 — Create src/pages/FindApplication/index.jsx (new directory + file): MUI Container, Typography heading 'Find My Application', TextField for applicationId, Button 'Find'. On submit navigate to /applications/${id}. Also add FindApplication.module.css with minimal styles.",
+    "Step 2 — Overwrite src/pages/Home/Home.jsx: useState for search and domain. Use useEffect + getOpportunities(search, domain) to fetch. Track loading/error/opportunities state. Render Navbar at top, Container with Stack for SearchBar + DomainFilter side by side, MUI Grid2 of OpportunityCards. Show Loader while loading, ErrorMessage on error, EmptyState when no results. Render Footer at bottom.",
+    "Step 3 — Overwrite src/pages/Home/Home.module.css: grid gap, filter bar layout styles.",
+    "Step 4 — Overwrite src/pages/OpportunityDetails/OpportunityDetails.jsx: useParams for id. Fetch getOpportunityById(id) on mount. Show Loader/error states. Display title (h4), companyName, type Chip, domain, location, experience, description (pre-wrap). 'Open Application Link' Button (href=applicationLink, target=_blank, rel=noopener). Divider then 'Apply Now' heading and <ApplyForm opportunityId={opportunity._id} />. Render Navbar + Footer around content.",
+    "Step 5 — Overwrite src/pages/OpportunityDetails/OpportunityDetails.module.css: field layout, section spacing.",
+    "Step 6 — Overwrite src/pages/ApplySuccess/ApplySuccess.jsx: useParams for applicationId. Show applicationId in large Typography. 'Copy shareable link' Button using navigator.clipboard.writeText(window.location.href). Show MUI Snackbar 'Link copied!' on success. Link back to home. Render Navbar + Footer.",
+    "Step 7 — Overwrite src/pages/ApplySuccess/ApplySuccess.module.css: centered layout styles.",
+    "Step 8 — Overwrite src/pages/ViewApplication/ViewApplication.jsx: useParams for applicationId. Fetch getApplicationById(applicationId). Show Loader/error. Display: applicationId, name, email, phone, resumeLink (anchor), message, opportunity title + companyName. Render Navbar + Footer.",
+    "Step 9 — Overwrite src/pages/ViewApplication/ViewApplication.module.css: section card layout.",
+    "Step 10 — Overwrite src/pages/NotFound/NotFound.jsx: MUI Box centered, '404 - Page Not Found' Typography, Button 'Go Home' → navigate('/'). Render Navbar + Footer.",
+    "Step 11 — Overwrite src/pages/NotFound/NotFound.module.css: centered full-height layout.",
+    "Step 12 — Overwrite src/routes/AppRoutes.jsx: wire ALL 11 routes correctly. Public routes render Navbar+Footer inline in each page (already done above). Admin routes use nested structure: <Route element={<ProtectedRoute />}><Route element={<AdminLayout />}><Route path='/admin' element={<AdminOpportunities />} /><Route path='/admin/opportunities/new' element={<AdminOpportunityForm />} /><Route path='/admin/opportunities/:id/edit' element={<AdminOpportunityForm />} /><Route path='/admin/applications' element={<AdminApplications />} /></Route></Route>. Include /admin/login (no protection), /find-application, /applications/:applicationId (ViewApplication), /application-success/:applicationId (ApplySuccess). Import FindApplication from '../pages/FindApplication/index.jsx'."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with no errors after this FEAT",
+    "/ route renders Home page with search and filter controls",
+    "/opportunities/:id renders details + ApplyForm",
+    "/application-success/:applicationId shows the applicationId and copy button",
+    "/applications/:applicationId shows saved application details",
+    "/find-application shows the lookup form",
+    "/* renders NotFound page",
+    "Admin routes redirect unauthenticated users to /admin/login",
+    "FindApplication page directory created at src/pages/FindApplication/"
+  ],
+  "verification": [
+    "cd 'd:\\Internship Project\\Frontend' && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": "All applicant pages implemented and build passes. Key notes for FEAT-003 (admin pages): admin stubs are still placeholders (AdminLogin, AdminOpportunities, AdminOpportunityForm, AdminApplications). AppRoutes.jsx is final — admin path '/admin' maps to AdminOpportunities (no separate /admin/opportunities path). AdminLayout sidebar navigates to '/admin/opportunities' which is NOT a registered route — FEAT-003 must either add that route or update AdminLayout to use '/admin' for Opportunities. ConfirmDialog is imported from '../components/common/ConfirmModal.jsx'. The icon CheckCircleOutlineIcon must be imported from '@mui/icons-material/CheckCircleOutlined' (not CheckCircleOutline). formatDate utility is at src/utils/formatDate.js."
+}
