@@ -1,0 +1,44 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Install missing dependencies, create theme, wire up App.jsx, complete axiosInstance and all API modules, implement AuthContext, create useDebounce hook, implement all shared components (Loader, ErrorMessage, EmptyState, ConfirmDialog, Navbar, Footer, AdminLayout, ProtectedRoute, OpportunityCard, SearchBar, DomainFilter, ApplyForm).",
+  "status": "completed",
+  "steps": [
+    "Step 1 — Install deps: run `npm install @mui/material @emotion/react @emotion/styled @mui/icons-material react-hook-form` inside d:\\Internship Project\\Frontend.",
+    "Step 2 — Create src/theme.js: call MUI createTheme({ palette: { primary: { main: '#2563eb' }, background: { default: '#f8fafc' } }, typography: { fontFamily: 'system-ui, sans-serif' } }). Export as default.",
+    "Step 3 — Overwrite src/App.jsx: import AuthProvider from './context/AuthContext.jsx', ThemeProvider and CssBaseline from MUI, theme from './theme.js', AppRoutes from './routes/AppRoutes.jsx'. Render <AuthProvider><ThemeProvider theme={theme}><CssBaseline /><AppRoutes /></ThemeProvider></AuthProvider>. Do NOT add BrowserRouter — it is already in main.jsx.",
+    "Step 4 — Overwrite src/api/axiosInstance.js: already correct (axios.create with baseURL and withCredentials). No change needed unless content is missing. Confirm file has the axios.create call.",
+    "Step 5 — Overwrite src/api/opportunityApi.js: export getOpportunities(search='', domain='') which calls axiosInstance.get('/opportunities', { params: { search: search||undefined, domain: domain||undefined } }) and returns res.data.data. Export getOpportunityById(id) → axiosInstance.get(`/opportunities/${id}`) → res.data.data.",
+    "Step 6 — Overwrite src/api/applicationApi.js: export submitApplication(data) → axiosInstance.post('/applications', data) → res.data.data. Export getApplicationById(applicationId) → axiosInstance.get(`/applications/${applicationId}`) → res.data.data.",
+    "Step 7 — Overwrite src/api/adminApi.js: export login(email,password) → axiosInstance.post('/admin/login', {email,password}). export logout() → axiosInstance.post('/admin/logout'). export getMe() → axiosInstance.get('/admin/me') → res.data.data. export createOpportunity(data) → axiosInstance.post('/admin/opportunities', data) → res.data.data. export updateOpportunity(id,data) → axiosInstance.put(`/admin/opportunities/${id}`, data) → res.data.data. export deleteOpportunity(id) → axiosInstance.delete(`/admin/opportunities/${id}`). export getAllApplications() → axiosInstance.get('/admin/applications') → res.data.data.",
+    "Step 8 — Overwrite src/context/AuthContext.jsx: create React Context. AuthProvider calls getMe() on mount; sets admin state on 200, sets null on error. Exposes { admin, loading, login(email,pw), logout() } via useAuth hook. login() calls adminApi.login then getMe() to update admin state. logout() calls adminApi.logout then sets admin to null.",
+    "Step 9 — Overwrite src/hooks/useDebounce.js: standard useDebounce(value, delay=400) hook using useState+useEffect with clearTimeout. Export as default.",
+    "Step 10 — Overwrite src/utils/formatDate.js: export formatDate(dateStr) that returns new Date(dateStr).toLocaleDateString('en-IN', { year:'numeric', month:'short', day:'numeric' }).",
+    "Step 11 — Overwrite src/components/common/Loader.jsx: render centered MUI Box with CircularProgress. Accept optional size prop.",
+    "Step 12 — Overwrite src/components/common/ErrorMessage.jsx: render MUI Alert severity='error' with message prop text.",
+    "Step 13 — Overwrite src/components/common/EmptyState.jsx: render centered MUI Box with optional InboxIcon and a Typography message prop.",
+    "Step 14 — Overwrite src/components/common/ConfirmModal.jsx (keep filename, rename component export to ConfirmDialog internally but also export default ConfirmDialog so import sites can use either name): MUI Dialog with title, message, onConfirm, onCancel props. Cancel and Confirm buttons. Confirm button is MUI color='error'.",
+    "Step 15 — Overwrite src/components/layout/Navbar.jsx: MUI AppBar. Left: app title 'Job Portal' linking to /. Right: small TextField + IconButton for 'Find application' ID input (on submit navigates to /applications/:id). Admin Login link (hidden when admin is logged in). Logout button (shown only when admin is logged in, calls useAuth().logout()). Use useNavigate and useAuth.",
+    "Step 16 — Overwrite src/components/layout/Footer.jsx: simple MUI Box with Typography '© 2025 Job Portal. All rights reserved.' centered, py:2, bgcolor grey.100.",
+    "Step 17 — Overwrite src/components/layout/AdminLayout.jsx: MUI Box with left Drawer (persistent, width 220px) containing List with ListItemButton for Opportunities (/admin/opportunities), Applications (/admin/applications), and Divider + Logout button. Right side renders <Outlet /> with main content area. Use useAuth for logout.",
+    "Step 18 — Overwrite src/components/ProtectedRoute.jsx: import useAuth. If loading return <Loader />. If no admin return <Navigate to='/admin/login' replace />. Else return <Outlet />.",
+    "Step 19 — Overwrite src/components/opportunity/OpportunityCard.jsx: MUI Card (sx cursor:pointer, full height). CardActionArea wrapping CardContent. Show title (Typography variant h6), companyName, location. Chip for type: variant='filled', color='primary' for Job, color='secondary' for Internship. Typography for domain. onClick → navigate to /opportunities/:_id.",
+    "Step 20 — Overwrite src/components/opportunity/SearchBar.jsx: controlled MUI TextField with search icon InputAdornment. Accepts value, onChange props. Debounced internally: calls onChange prop with debounced value after 400ms. Keep input value immediate (controlled by local state), debounce the parent callback.",
+    "Step 21 — Overwrite src/components/opportunity/DomainFilter.jsx: MUI FormControl + Select. First MenuItem value='' label='All Domains'. Then one MenuItem per DOMAINS constant. Accepts value and onChange props.",
+    "Step 22 — Overwrite src/components/opportunity/ApplyForm.jsx: React Hook Form. Fields: name (required), phone (required), email (required), resumeLink (optional), message (optional multiline). On submit call submitApplication({ ...data, opportunityId }). opportunityId passed as prop. Show inline required-field errors from RHF. Show backend error in MUI Alert above form (check for duplicate 'already applied' message in err.response?.data?.message). Disable submit button while submitting. On 201 success navigate to /application-success/:applicationId."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with no errors after this FEAT",
+    "AuthContext exports useAuth hook and AuthProvider component",
+    "All API modules export the correct named functions",
+    "axiosInstance has baseURL from VITE_API_URL and withCredentials: true",
+    "ProtectedRoute redirects unauthenticated users to /admin/login",
+    "ApplyForm shows backend duplicate-application error in an Alert above the form",
+    "All shared components render without crashing when given expected props"
+  ],
+  "verification": [
+    "cd 'd:\\Internship Project\\Frontend' && npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": "AppRoutes.jsx was also updated to wire up ProtectedRoute + AdminLayout nesting, and to use the canonical spec routes: /application-success/:applicationId (ApplySuccess) and /applications/:applicationId (ViewApplication). The old stub paths /apply-success/:applicationId and /application/:applicationId were replaced. Public pages share a PublicLayout wrapper (Navbar + Footer). FEAT-002/003 pages (Home, OpportunityDetails, ApplySuccess, ViewApplication, NotFound, AdminLogin, AdminOpportunities, AdminOpportunityForm, AdminApplications) are still stubs — they need to import and use the shared components built in FEAT-001. ApplyForm navigates to /application-success/:applicationId on success. ConfirmModal.jsx exports ConfirmDialog as default — import it as: import ConfirmDialog from '../components/common/ConfirmModal.jsx'. formatDate utility is at src/utils/formatDate.js."
+}
