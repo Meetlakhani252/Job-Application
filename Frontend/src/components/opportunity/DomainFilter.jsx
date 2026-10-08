@@ -3,11 +3,12 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { DOMAINS } from '../../constants/index.js';
+import styles from './DomainFilter.module.css';
 
 // Dropdown to filter opportunities by domain
 function DomainFilter({ value, onChange }) {
   return (
-    <FormControl size="small" sx={{ minWidth: 180 }}>
+    <FormControl size="small" className={styles.control}>
       <InputLabel id="domain-filter-label">Domain</InputLabel>
       <Select
         labelId="domain-filter-label"

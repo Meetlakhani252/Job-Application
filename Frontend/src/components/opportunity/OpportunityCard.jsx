@@ -4,7 +4,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
+import styles from './OpportunityCard.module.css';
 
 // Card for a single opportunity in the listings grid
 function OpportunityCard({ opportunity }) {
@@ -12,10 +12,10 @@ function OpportunityCard({ opportunity }) {
   const { _id, title, companyName, type, domain, location } = opportunity;
 
   return (
-    <Card sx={{ cursor: 'pointer', height: '100%' }}>
+    <Card className={styles.card}>
       <CardActionArea
         onClick={() => navigate(`/opportunities/${_id}`)}
-        sx={{ height: '100%', alignItems: 'flex-start' }}
+        className={styles.actionArea}
       >
         <CardContent>
           <Typography variant="h6" gutterBottom>
@@ -24,7 +24,7 @@ function OpportunityCard({ opportunity }) {
           <Typography variant="body2" color="text.secondary" gutterBottom>
             {companyName}
           </Typography>
-          <Box display="flex" alignItems="center" gap={1} mt={1} flexWrap="wrap">
+          <div className={styles.meta}>
             <Chip
               label={type}
               size="small"
@@ -34,8 +34,8 @@ function OpportunityCard({ opportunity }) {
             <Typography variant="body2" color="text.secondary">
               {domain}
             </Typography>
-          </Box>
-          <Typography variant="body2" color="text.secondary" mt={1}>
+          </div>
+          <Typography variant="body2" color="text.secondary" className={styles.location}>
             {location}
           </Typography>
         </CardContent>

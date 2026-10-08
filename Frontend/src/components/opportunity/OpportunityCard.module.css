@@ -1,0 +1,21 @@
+.card {
+  cursor: pointer;
+  height: 100%;
+}
+
+.actionArea {
+  height: 100%;
+  align-items: flex-start;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.location {
+  margin-top: 8px;
+}

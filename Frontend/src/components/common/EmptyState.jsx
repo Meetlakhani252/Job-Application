@@ -1,14 +1,14 @@
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InboxIcon from '@mui/icons-material/Inbox';
+import styles from './EmptyState.module.css';
 
 // Shown when a list or page has no data to display
 function EmptyState({ message = 'No data found.' }) {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" py={6} color="text.secondary">
-      <InboxIcon sx={{ fontSize: 48, mb: 1 }} />
+    <div className={styles.wrapper}>
+      <InboxIcon className={styles.icon} />
       <Typography variant="body1">{message}</Typography>
-    </Box>
+    </div>
   );
 }
 

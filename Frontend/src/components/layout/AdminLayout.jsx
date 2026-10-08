@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useAuth } from '../../context/AuthContext.jsx';
+import styles from './AdminLayout.module.css';
 
 const DRAWER_WIDTH = 220;
 
@@ -17,18 +18,15 @@ function AdminLayout() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <div className={styles.root}>
       <Drawer
         variant="permanent"
-        sx={{
-          width: DRAWER_WIDTH,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box' },
-        }}
+        className={styles.drawer}
+        sx={{ '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box' } }}
       >
-        <Box px={2} py={2}>
+        <div className={styles.drawerHeader}>
           <Typography variant="h6" fontWeight="bold">Admin</Typography>
-        </Box>
+        </div>
         <Divider />
         <List>
           <ListItemButton onClick={() => navigate('/admin')}>
@@ -39,19 +37,20 @@ function AdminLayout() {
           </ListItemButton>
         </List>
         <Divider />
-        <Box px={2} py={2}>
+        <div className={styles.drawerFooter}>
           <Button variant="outlined" color="error" fullWidth onClick={logout}>
             Logout
           </Button>
-        </Box>
+        </div>
       </Drawer>
 
       {/* Main content area */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, overflow: 'auto' }}>
+      <Box component="main" className={styles.main}>
         <Outlet />
       </Box>
-    </Box>
+    </div>
   );
 }
 
 export default AdminLayout;
+

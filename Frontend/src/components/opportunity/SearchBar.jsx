@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import useDebounce from '../../hooks/useDebounce.js';
+import styles from './SearchBar.module.css';
 
 // Search input that debounces the onChange callback by 400ms
 function SearchBar({ value, onChange }) {
@@ -26,6 +27,7 @@ function SearchBar({ value, onChange }) {
       placeholder="Search by title…"
       value={localValue}
       onChange={(e) => setLocalValue(e.target.value)}
+      className={styles.input}
       slotProps={{
         input: {
           startAdornment: (
@@ -35,7 +37,6 @@ function SearchBar({ value, onChange }) {
           ),
         },
       }}
-      sx={{ minWidth: 240 }}
       inputProps={{ 'aria-label': 'Search opportunities' }}
     />
   );

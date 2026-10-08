@@ -6,9 +6,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAuth } from '../../context/AuthContext.jsx';
+import styles from './Navbar.module.css';
 
 // Top navigation bar: app title, find-application search, admin links
 function Navbar() {
@@ -27,31 +27,32 @@ function Navbar() {
 
   return (
     <AppBar position="sticky" color="primary" elevation={1}>
-      <Toolbar sx={{ gap: 1, flexWrap: 'wrap' }}>
+      <Toolbar className={styles.toolbar}>
         {/* App title */}
         <Typography
           variant="h6"
           component={Link}
           to="/"
-          sx={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}
+          className={styles.title}
         >
           Job Portal
         </Typography>
 
         {/* Find application by ID */}
-        <Box component="form" onSubmit={handleFindApplication} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        <form onSubmit={handleFindApplication} className={styles.findForm}>
           <TextField
             size="small"
             placeholder="Application ID"
             value={appId}
             onChange={(e) => setAppId(e.target.value)}
-            sx={{ bgcolor: 'rgba(255,255,255,0.15)', borderRadius: 1, input: { color: 'white' } }}
+            className={styles.searchInput}
+            slotProps={{ input: { style: { color: 'white' } } }}
             inputProps={{ 'aria-label': 'Application ID' }}
           />
           <IconButton type="submit" aria-label="Find application" sx={{ color: 'white' }}>
             <SearchIcon />
           </IconButton>
-        </Box>
+        </form>
 
         {/* Admin Login — hidden when logged in */}
         {!admin && (

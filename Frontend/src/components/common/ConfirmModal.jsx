@@ -4,6 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import styles from './ConfirmModal.module.css';
 
 // Confirmation dialog for destructive actions (delete, etc.)
 function ConfirmDialog({ open, title, message, onConfirm, onCancel }) {
@@ -13,7 +14,7 @@ function ConfirmDialog({ open, title, message, onConfirm, onCancel }) {
       <DialogContent>
         <DialogContentText>{message}</DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className={styles.actions}>
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={onConfirm} color="error" variant="contained">
           Confirm
