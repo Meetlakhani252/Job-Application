@@ -1,1 +1,2 @@
-// opportunityValidator.js: Required-field checks only
+// Placeholder for future validation logic
+module.exports = {};

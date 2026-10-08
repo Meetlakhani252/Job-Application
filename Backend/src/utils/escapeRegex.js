@@ -1,1 +1,3 @@
-// escapeRegex.js: Escapes special characters in search text
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+module.exports = escapeRegex;

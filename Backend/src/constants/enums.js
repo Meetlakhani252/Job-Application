@@ -1,4 +1,4 @@
-export const DOMAINS = [
+const DOMAINS = [
   "Web Development",
   "Data & AI",
   "UI/UX Design",
@@ -6,4 +6,6 @@ export const DOMAINS = [
   "Other",
 ];
 
-export const OPPORTUNITY_TYPES = ["Job", "Internship"];
+const OPPORTUNITY_TYPES = ["Job", "Internship"];
+
+module.exports = { DOMAINS, OPPORTUNITY_TYPES };

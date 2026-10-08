@@ -1,9 +1,14 @@
-import app from "./app.js";
-import { connectDB } from "./config/db.js";
-import env from "./config/env.js";
+const app = require('./app');
+const { connectDB } = require('./config/db');
+const env = require('./config/env');
 
-await connectDB();
-
-app.listen(env.PORT, () => {
-  console.log(`Server listening on port ${env.PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(env.PORT, () => {
+      console.error(`Server running on port ${env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Could not start server:', err);
+    process.exit(1);
+  });

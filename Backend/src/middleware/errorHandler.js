@@ -1,7 +1,12 @@
-export default function errorHandler(err, req, res, next) {
-  const statusCode = err.statusCode || 500;
-  const message =
-    statusCode === 500 ? "Something went wrong" : err.message;
+const { sendError } = require('../utils/response');
 
-  res.status(statusCode).json({ message });
+function errorHandler(err, req, res, next) {
+  console.error(err);
+
+  const status = err.statusCode || 500;
+  const message = status === 500 ? 'Something went wrong' : err.message;
+
+  sendError(res, message, status, err.errors || null);
 }
+
+module.exports = errorHandler;

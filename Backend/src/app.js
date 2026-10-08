@@ -1,16 +1,25 @@
-import express from "express";
-import cors from "cors";
-import env from "./config/env.js";
-import router from "./routes/index.js";
-import notFound from "./middleware/notFound.js";
-import errorHandler from "./middleware/errorHandler.js";
+const express = require('express');
+const cors = require('cors');
+const mongoSanitize = require('express-mongo-sanitize');
+const env = require('./config/env');
+const { sessionMiddleware } = require('./config/session');
+const router = require('./routes/index');
+const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
+app.use(cors({
+  origin: env.CLIENT_ORIGIN,
+  credentials: true,
+}));
 app.use(express.json());
-app.use("/api", router);
+app.use(mongoSanitize());
+app.use(sessionMiddleware);
+
+app.use('/api', router);
+
 app.use(notFound);
 app.use(errorHandler);
 
-export default app;
+module.exports = app;
