@@ -1,0 +1,7 @@
+{
+  "task_id": "task-frontend-portal",
+  "task_description": "Build complete React/JSX frontend for Internship & Job Listing Portal. Overwrite all stub files. Install MUI + react-hook-form. Implement applicant pages (list, search, detail, apply, success, view-application, find-application), shared components, admin pages (login, opportunities CRUD, applications table), AuthContext, routing, theme.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

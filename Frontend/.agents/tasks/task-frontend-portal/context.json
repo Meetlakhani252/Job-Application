@@ -1,0 +1,27 @@
+{
+  "project_type": "Vite + React 19 + JavaScript/JSX SPA, MUI component library",
+  "language": "JavaScript (JSX, ES Modules, no TypeScript)",
+  "build_system": "Vite 8 with @vitejs/plugin-react. Config at Frontend/vite.config.js. No path aliases configured.",
+  "test_framework": "None present — no test runner installed or configured",
+  "build_command": "cd \"d:\\Internship Project\\Frontend\" && npm run build",
+  "test_command": "cd \"d:\\Internship Project\\Frontend\" && npm run build (build is the only verifiable check)",
+  "verification_instructions": "1. Run `npm install` in d:\\Internship Project\\Frontend if node_modules are missing. 2. Run `npm run build` — must complete with no errors. 3. Run `npm run dev` and manually verify pages render and API calls work against the backend.",
+  "snapshot_or_generated_files": "dist/ folder produced by `npm run build`. Not committed.",
+  "environment_constraints": "Backend runs on http://localhost:5000. Frontend dev server defaults to http://localhost:5173. .env file must contain VITE_API_URL=http://localhost:5000/api. Do NOT open or modify anything under d:\\Internship Project\\Backend.",
+  "contribution_requirements": "Stack: React (Vite) + Express + MongoDB, JavaScript, ES Modules. Styling: CSS Modules, one .module.css per page or component. Client flow: page → component → hook → api function → axios instance. Pages never call axios directly. All API errors use shape { message: '...' }. No files outside agreed structure without asking.",
+  "key_patterns": "All API modules import from src/api/axiosInstance.js. Error handling pattern: catch(err) => err.response?.data?.message || 'Fallback message'. CSS Modules used per-page and per-component. BrowserRouter is in main.jsx — App.jsx must NOT add a second BrowserRouter. MUI ThemeProvider + CssBaseline go in App.jsx. AuthContext wraps everything in App.jsx. main.jsx already has BrowserRouter, so App.jsx provides ThemeProvider+AuthProvider only.",
+  "relevant_files": [
+    "Frontend/src/main.jsx",
+    "Frontend/src/App.jsx",
+    "Frontend/src/routes/AppRoutes.jsx",
+    "Frontend/src/api/axiosInstance.js",
+    "Frontend/src/constants/index.js",
+    "Frontend/src/styles/variables.css",
+    "Frontend/src/styles/global.css",
+    "Frontend/index.html",
+    "Frontend/vite.config.js",
+    "Frontend/package.json",
+    "Frontend/API_CONTRACT.md"
+  ],
+  "directory_structure": "Frontend/src/api/ — 4 API modules (stubs). src/components/common/ — Loader, ErrorMessage, EmptyState, ConfirmModal (stubs). src/components/layout/ — Navbar, Footer, AdminLayout (stubs). src/components/opportunity/ — OpportunityCard, SearchBar, DomainFilter, ApplyForm (stubs). src/components/ProtectedRoute.jsx (stub). src/context/AuthContext.jsx (stub). src/hooks/useDebounce.js, useFetch.js (stubs). src/constants/index.js (done — DOMAINS+TYPES). src/pages/ — Home, OpportunityDetails, ApplySuccess, ViewApplication, NotFound (stubs with empty .module.css). src/pages/admin/ — AdminLogin, AdminOpportunities, AdminOpportunityForm, AdminApplications (stubs with empty .module.css). src/routes/AppRoutes.jsx (partial stub — missing FindApplication page, ProtectedRoute wrapping, AdminLayout). NOTE: existing ConfirmModal.jsx is named ConfirmModal but spec calls it ConfirmDialog — keep filename ConfirmModal.jsx but export as ConfirmDialog alias, or rename import sites."
+}
