@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { DOMAINS, OPPORTUNITY_TYPES } from "../constants/enums.js";
+const mongoose = require("mongoose");
+const { DOMAINS, OPPORTUNITY_TYPES } = require("../constants/enums");
 
 const opportunitySchema = new mongoose.Schema(
   {
@@ -49,4 +49,4 @@ const opportunitySchema = new mongoose.Schema(
 
 const Opportunity = mongoose.model("Opportunity", opportunitySchema);
 
-export default Opportunity;
+module.exports = Opportunity;

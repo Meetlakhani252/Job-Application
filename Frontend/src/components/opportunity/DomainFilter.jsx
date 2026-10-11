@@ -1,30 +1,28 @@
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import { ChevronDown } from 'lucide-react';
 import { DOMAINS } from '../../constants/index.js';
-import styles from './DomainFilter.module.css';
 
-// Dropdown to filter opportunities by domain
-function DomainFilter({ value, onChange }) {
+export default function DomainFilter({ value, onChange, className = '' }) {
   return (
-    <FormControl size="small" className={styles.control}>
-      <InputLabel id="domain-filter-label">Domain</InputLabel>
-      <Select
-        labelId="domain-filter-label"
+    <div className={`relative min-w-[180px] ${className}`}>
+      <select
         value={value}
-        label="Domain"
         onChange={(e) => onChange(e.target.value)}
+        aria-label="Filter opportunities by domain"
+        className="appearance-none block w-full pl-3.5 pr-9 py-2.5 text-sm bg-white rounded-lg border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 shadow-2xs cursor-pointer transition-colors"
       >
-        <MenuItem value="">All Domains</MenuItem>
+        <option value="">All Domains</option>
         {DOMAINS.map((domain) => (
-          <MenuItem key={domain} value={domain}>
+          <option key={domain} value={domain}>
             {domain}
-          </MenuItem>
+          </option>
         ))}
-      </Select>
-    </FormControl>
+      </select>
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400"
+        aria-hidden="true"
+      >
+        <ChevronDown className="w-4 h-4" />
+      </div>
+    </div>
   );
 }
-
-export default DomainFilter;

@@ -1,45 +1,63 @@
 import { useEffect, useState } from 'react';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
+import { Search, X } from 'lucide-react';
 import useDebounce from '../../hooks/useDebounce.js';
-import styles from './SearchBar.module.css';
 
-// Search input that debounces the onChange callback by 400ms
-function SearchBar({ value, onChange }) {
-  // Local state tracks immediate typed value
-  const [localValue, setLocalValue] = useState(value);
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = 'Search by title, role or keywords…',
+  className = '',
+}) {
+  const [prevValue, setPrevValue] = useState(value);
+  const [localValue, setLocalValue] = useState(value || '');
+
+  if (value !== prevValue) {
+    setPrevValue(value);
+    setLocalValue(value || '');
+  }
+
   const debouncedValue = useDebounce(localValue, 400);
 
-  // Sync local state if the parent resets the value
+  // Emit debounced changes
   useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
-
-  // Notify parent only when debounced value settles
-  useEffect(() => {
-    onChange(debouncedValue);
+    if (debouncedValue !== value) {
+      onChange(debouncedValue);
+    }
   }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  function handleClear() {
+    setLocalValue('');
+    onChange('');
+  }
+
   return (
-    <TextField
-      size="small"
-      placeholder="Search by title…"
-      value={localValue}
-      onChange={(e) => setLocalValue(e.target.value)}
-      className={styles.input}
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon fontSize="small" />
-            </InputAdornment>
-          ),
-        },
-      }}
-      inputProps={{ 'aria-label': 'Search opportunities' }}
-    />
+    <div className={`relative flex-1 min-w-[240px] ${className}`}>
+      <div
+        className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400"
+        aria-hidden="true"
+      >
+        <Search className="w-4 h-4" />
+      </div>
+
+      <input
+        type="search"
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        placeholder={placeholder}
+        aria-label="Search opportunities"
+        className="block w-full pl-10 pr-9 py-2.5 text-sm bg-white rounded-lg border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 shadow-2xs transition-colors"
+      />
+
+      {localValue && (
+        <button
+          type="button"
+          onClick={handleClear}
+          aria-label="Clear search input"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      )}
+    </div>
   );
 }
-
-export default SearchBar;

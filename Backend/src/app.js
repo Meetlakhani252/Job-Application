@@ -14,7 +14,12 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-app.use(mongoSanitize());
+app.use((req, res, next) => {
+  if (req.body) {
+    mongoSanitize.sanitize(req.body);
+  }
+  next();
+});
 app.use(sessionMiddleware);
 
 app.use('/api', router);

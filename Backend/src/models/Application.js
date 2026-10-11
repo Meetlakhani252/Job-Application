@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const applicationSchema = new mongoose.Schema(
   {
@@ -45,4 +45,4 @@ applicationSchema.index({ email: 1, opportunity: 1 }, { unique: true });
 
 const Application = mongoose.model("Application", applicationSchema);
 
-export default Application;
+module.exports = Application;

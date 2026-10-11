@@ -60,8 +60,15 @@ function ApplySuccess() {
               >
                 Copy Shareable Link
               </Button>
-              <Button variant="contained" component={Link} to="/">
-                Back to Listings
+              <Button
+                variant="contained"
+                component={Link}
+                to={`/applications/${applicationId}`}
+              >
+                View Application
+              </Button>
+              <Button variant="outlined" component={Link} to="/opportunities">
+                Browse Opportunities
               </Button>
             </Box>
           </Box>

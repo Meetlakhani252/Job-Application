@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const SALT_ROUNDS = 12;
 
@@ -34,4 +34,4 @@ adminSchema.methods.comparePassword = function (candidatePassword) {
 
 const Admin = mongoose.model("Admin", adminSchema);
 
-export default Admin;
+module.exports = Admin;

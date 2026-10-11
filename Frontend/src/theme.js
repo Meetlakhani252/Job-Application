@@ -2,11 +2,11 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#2563eb' },
-    background: { default: '#f8fafc' },
+    primary: { main: '#4f46e5' },
+    background: { default: '#f8f9ff' },
   },
   typography: {
-    fontFamily: 'system-ui, sans-serif',
+    fontFamily: "'Inter', system-ui, sans-serif",
   },
 });
 

@@ -3,10 +3,11 @@ import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import AdminLayout from '../components/layout/AdminLayout.jsx';
 
 import Home from '../pages/Home/Home.jsx';
+import Opportunities from '../pages/Opportunities/Opportunities.jsx';
 import OpportunityDetails from '../pages/OpportunityDetails/OpportunityDetails.jsx';
 import ApplySuccess from '../pages/ApplySuccess/ApplySuccess.jsx';
 import ViewApplication from '../pages/ViewApplication/ViewApplication.jsx';
-import FindApplication from '../pages/FindApplication/index.jsx';
+import Dashboard from '../pages/Dashboard/Dashboard.jsx';
 import NotFound from '../pages/NotFound/NotFound.jsx';
 import AdminLogin from '../pages/admin/AdminLogin/AdminLogin.jsx';
 import AdminOpportunities from '../pages/admin/AdminOpportunities/AdminOpportunities.jsx';
@@ -20,10 +21,12 @@ function AppRoutes() {
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<Home />} />
+      <Route path="/opportunities" element={<Opportunities />} />
       <Route path="/opportunities/:id" element={<OpportunityDetails />} />
       <Route path="/application-success/:applicationId" element={<ApplySuccess />} />
       <Route path="/applications/:applicationId" element={<ViewApplication />} />
-      <Route path="/find-application" element={<FindApplication />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/find-application" element={<Dashboard />} />
 
       {/* Admin login — no auth required */}
       <Route path="/admin/login" element={<AdminLogin />} />
