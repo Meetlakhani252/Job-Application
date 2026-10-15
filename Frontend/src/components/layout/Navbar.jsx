@@ -1,200 +1,163 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, LogOut, ShieldCheck, LayoutDashboard, Briefcase } from 'lucide-react';
+import { Menu, X, LogOut, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
-import Button from '../common/Button.jsx';
 
 export default function Navbar() {
   const { admin, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
-          {/* Logo & Brand */}
-          <Link
-            to="/"
-            className="flex items-center gap-2.5 text-slate-900 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 rounded-lg py-1 px-1.5 transition-transform"
-            aria-label="Rooklet Home"
-          >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-sm shadow-indigo-500/20 group-hover:scale-105 transition-all font-bold text-lg">
-              R
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors leading-tight">
-                Rooklet
-              </span>
-              <span className="text-[10px] font-semibold text-indigo-600 tracking-wider uppercase -mt-0.5">
-                Career Platform
-              </span>
-            </div>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Left: Logo & Primary Nav */}
+        <div className="flex items-center space-x-10">
+          <Link to="/" aria-label="Wellfound Home" className="flex items-center group">
+            <span className="text-2xl font-bold tracking-tight text-black transition-opacity group-hover:opacity-90">
+              wellfound<span className="text-[#FF2E74]">:</span>
+            </span>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
-            <Link to="/" className="hover:text-indigo-600 transition-colors">Home</Link>
-            <Link to="/opportunities" className="hover:text-indigo-600 transition-colors">Opportunities</Link>
-            <Link to="/dashboard" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
-            <a href="/#features" className="hover:text-indigo-600 transition-colors">Features</a>
-            <a href="/#how-it-works" className="hover:text-indigo-600 transition-colors">Workflow</a>
-            <a href="/#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
-            <a href="/#faq" className="hover:text-indigo-600 transition-colors">FAQ</a>
-          </nav>
-
-          {/* Desktop Navigation Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link to="/dashboard">
-              <Button
-                size="sm"
-                variant="ghost"
-                leftIcon={<LayoutDashboard className="w-4 h-4 text-indigo-600" />}
-                className="text-slate-700 hover:text-indigo-600 font-medium"
-              >
-                Dashboard
-              </Button>
-            </Link>
-
-            {/* Auth Actions */}
-            {admin ? (
-              <div className="flex items-center gap-2">
-                <Link to="/admin">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    leftIcon={<ShieldCheck className="w-4 h-4 text-emerald-600" />}
-                  >
-                    Admin Area
-                  </Button>
-                </Link>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={logout}
-                  leftIcon={<LogOut className="w-4 h-4" />}
-                >
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Link to="/admin/login">
-                <Button size="sm" variant="outline" className="border-indigo-200 text-indigo-600 hover:bg-indigo-50">
-                  Admin Login
-                </Button>
-              </Link>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex md:hidden items-center">
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-              aria-expanded={isMobileMenuOpen}
-              aria-label="Toggle navigation menu"
+          {/* Desktop Nav Links */}
+          <nav aria-label="Main Navigation" className="hidden md:flex items-center space-x-8">
+            <a
+              href="#for-companies"
+              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
+              For companies
+            </a>
+            <Link
+              to="/opportunities"
+              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+            >
+              For job seekers
+            </Link>
+            <a
+              href="#faq"
+              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+            >
+              FAQ
+            </a>
+          </nav>
+        </div>
+
+        {/* Right: Actions */}
+        <div className="hidden md:flex items-center space-x-4">
+          {admin ? (
+            <>
+              <Link
+                to="/admin"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-800 hover:text-black px-3 py-2 transition-colors"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Admin Area</span>
+              </Link>
+              <button
+                onClick={logout}
+                className="inline-flex items-center gap-1.5 text-sm font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-full transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5 text-gray-500" />
+                <span>Logout</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/admin/login"
+                className="text-sm font-semibold text-gray-800 hover:text-black px-3 py-2 transition-colors"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/opportunities"
+                className="text-sm font-medium bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-full transition-all duration-150 shadow-sm"
+              >
+                Browse jobs
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile menu button */}
+        <div className="flex md:hidden items-center">
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-md text-gray-700 hover:text-black hover:bg-gray-100 focus:outline-none"
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
       {/* Mobile dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-3 shadow-md animate-in slide-in-from-top-2">
-          {/* Quick in-page links */}
-          <div className="grid grid-cols-2 gap-2 pb-1 text-center text-xs font-semibold text-slate-700">
+        <div className="md:hidden border-t border-gray-100 bg-white px-4 pt-3 pb-5 space-y-3 shadow-lg">
+          <div className="flex flex-col space-y-2">
+            <a
+              href="#for-companies"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
+            >
+              For companies
+            </a>
             <Link
               to="/opportunities"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2.5 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 flex items-center justify-center gap-1.5"
+              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
             >
-              <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Opportunities</span>
-            </Link>
-            <Link
-              to="/dashboard"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2.5 rounded-lg bg-indigo-50 text-indigo-600 font-semibold flex items-center justify-center gap-1.5"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Dashboard</span>
+              For job seekers
             </Link>
             <a
-              href="/#features"
+              href="#faq"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600"
-            >
-              Features
-            </a>
-            <a
-              href="/#how-it-works"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600"
-            >
-              Workflow
-            </a>
-            <a
-              href="/#pricing"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600"
-            >
-              Pricing
-            </a>
-            <a
-              href="/#faq"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600"
+              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
             >
               FAQ
             </a>
           </div>
 
-          <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+          <div className="pt-3 border-t border-gray-100 flex flex-col gap-2">
             {admin ? (
               <>
                 <Link
                   to="/admin"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-50"
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 rounded-lg"
                 >
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  Admin Dashboard
+                  <span>Admin Area</span>
                 </Link>
-                <Link
-                  to="/admin/applications"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium text-slate-700 rounded-md hover:bg-slate-50"
-                >
-                  Applications List
-                </Link>
-                <Button
-                  size="sm"
-                  variant="outline"
+                <button
                   onClick={() => {
                     logout();
                     setIsMobileMenuOpen(false);
                   }}
-                  leftIcon={<LogOut className="w-4 h-4" />}
-                  fullWidth
+                  className="flex items-center justify-center gap-1.5 w-full py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
                 >
-                  Logout
-                </Button>
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
               </>
             ) : (
-              <Link
-                to="/admin/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Button size="sm" variant="outline" fullWidth>
-                  Admin Login
-                </Button>
-              </Link>
+              <>
+                <Link
+                  to="/admin/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-center py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 rounded-lg"
+                >
+                  Log in
+                </Link>
+                <Link
+                  to="/opportunities"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-center py-2.5 text-sm font-medium bg-black text-white hover:bg-neutral-800 rounded-full"
+                >
+                  Browse jobs
+                </Link>
+              </>
             )}
           </div>
         </div>
