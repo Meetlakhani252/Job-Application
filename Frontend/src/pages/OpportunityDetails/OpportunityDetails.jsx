@@ -104,7 +104,7 @@ function OpportunityDetails() {
               <Typography variant="h5" gutterBottom>
                 Apply Now
               </Typography>
-              <ApplyForm opportunityId={opportunity._id} />
+              <ApplyForm opportunityId={opportunity.id} />
             </>
           )}
         </Container>

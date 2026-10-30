@@ -1,9 +1,9 @@
 const { supabase } = require('../config/db');
-const Opportunity = require('../models/Opportunity'); // Placeholder
 const AppError = require('../utils/AppError');
 const generateApplicationId = require('../utils/generateApplicationId');
 
-const createApplication = async ({ name, phone, email, opportunityId, resumeLink, message }) => {
+const createApplication = async ({ userId, name, phone, email, opportunityId, resumeLink, message }) => {
+
   // Check if opportunity exists
   const { data: opp, error: oppError } = await supabase
     .from('opportunities')
@@ -33,6 +33,7 @@ const createApplication = async ({ name, phone, email, opportunityId, resumeLink
       .insert([{
         application_code: applicationCode,
         opportunity_id: opportunityId,
+        user_id: userId,
         name: name.trim(),
         phone: phone.trim(),
         email: email.trim().toLowerCase(),
@@ -57,7 +58,7 @@ const createApplication = async ({ name, phone, email, opportunityId, resumeLink
   }
 };
 
-const getApplicationByApplicationId = async (applicationId) => {
+const getApplicationByApplicationId = async (userId, applicationId) => {
   const { data, error } = await supabase
     .from('applications')
     .select(`
@@ -65,10 +66,11 @@ const getApplicationByApplicationId = async (applicationId) => {
       opportunity (id, title, company_name)
     `)
     .eq('application_code', applicationId)
+    .eq('user_id', userId)
     .single();
 
   if (error || !data) {
-    throw new AppError('Application not found', 404);
+    throw new AppError('Application not found or you do not have permission to view it', 404);
   }
 
   // Maintain same response shape as Mongoose .populate()
