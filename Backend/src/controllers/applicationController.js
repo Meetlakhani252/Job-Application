@@ -9,7 +9,11 @@ exports.submitApplication = asyncHandler(async (req, res) => {
 
   const { name, phone, email, opportunityId, resumeLink, message } = req.body;
 
-  const result = await createApplication({ name, phone, email, opportunityId, resumeLink, message });
+  // Use the userId from the verified token (attached by requireUser middleware)
+  const result = await createApplication({
+    userId: req.user.id,
+    name, phone, email, opportunityId, resumeLink, message
+  });
 
   sendSuccess(res, { applicationId: result.applicationId }, 'Application submitted', 201);
 });
@@ -21,6 +25,7 @@ exports.getApplication = asyncHandler(async (req, res) => {
     return sendError(res, 'Invalid application ID format', 400);
   }
 
-  const application = await getApplicationByApplicationId(applicationId.toUpperCase());
+  // Use the userId from the verified token to ensure the user owns this application
+  const application = await getApplicationByApplicationId(req.user.id, applicationId.toUpperCase());
   sendSuccess(res, application);
 });
