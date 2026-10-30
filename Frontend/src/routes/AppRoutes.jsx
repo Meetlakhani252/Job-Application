@@ -13,9 +13,10 @@ import AdminLogin from '../pages/admin/AdminLogin/AdminLogin.jsx';
 import AdminOpportunities from '../pages/admin/AdminOpportunities/AdminOpportunities.jsx';
 import AdminOpportunityForm from '../pages/admin/AdminOpportunityForm/AdminOpportunityForm.jsx';
 import AdminApplications from '../pages/admin/AdminApplications/AdminApplications.jsx';
+import UserLogin from '../pages/auth/Login/Login.jsx';
+import UserSignUp from '../pages/auth/SignUp/SignUp.jsx';
+import AuthChoice from '../pages/auth/AuthChoice.jsx';
 
-// Public pages include Navbar + Footer directly in each page component.
-// Admin routes are protected and nested under AdminLayout.
 function AppRoutes() {
   return (
     <Routes>
@@ -27,6 +28,13 @@ function AppRoutes() {
       <Route path="/applications/:applicationId" element={<ViewApplication />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/find-application" element={<Dashboard />} />
+
+      {/* Auth entry point */}
+      <Route path="/login" element={<AuthChoice />} />
+
+      {/* User Auth routes */}
+      <Route path="/auth/login" element={<UserLogin />} />
+      <Route path="/auth/signup" element={<UserSignUp />} />
 
       {/* Admin login — no auth required */}
       <Route path="/admin/login" element={<AdminLogin />} />
