@@ -12,9 +12,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Logo & Primary Nav */}
         <div className="flex items-center space-x-10">
-          <Link to="/" aria-label="Wellfound Home" className="flex items-center group">
+          <Link to="/" aria-label="Rooklet Home" className="flex items-center group">
             <span className="text-2xl font-bold tracking-tight text-black transition-opacity group-hover:opacity-90">
-              wellfound<span className="text-[#FF2E74]">:</span>
+              rooklet<span className="text-[#FF2E74]">:</span>
             </span>
           </Link>
 

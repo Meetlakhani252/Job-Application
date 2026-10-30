@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
-const Admin = require('../models/Admin');
+const { supabase } = require('../config/db');
 const env = require('../config/env');
+const bcrypt = require('bcrypt');
 
 async function seedAdmin() {
   try {
-    await mongoose.connect(env.MONGO_URI);
-
     const { ADMIN_EMAIL, ADMIN_PASSWORD } = env;
 
     if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
@@ -13,14 +11,30 @@ async function seedAdmin() {
       process.exit(1);
     }
 
-    const existing = await Admin.findOne({ email: ADMIN_EMAIL.toLowerCase() });
+    const email = ADMIN_EMAIL.toLowerCase();
+    const { data: existing } = await supabase
+      .from('admins')
+      .select('id')
+      .eq('email', email)
+      .single();
+
     if (existing) {
-      console.error(`Admin ${ADMIN_EMAIL} already exists. Skipping.`);
+      console.log(`Admin ${email} already exists. Skipping.`);
       process.exit(0);
     }
 
-    await Admin.create({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
-    console.error(`Admin created: ${ADMIN_EMAIL}`);
+    const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
+
+    const { error } = await supabase
+      .from('admins')
+      .insert([{
+        email: email,
+        password_hash: passwordHash
+      }]);
+
+    if (error) throw error;
+
+    console.log(`Admin created: ${email}`);
     process.exit(0);
   } catch (error) {
     console.error('Seed failed:', error);

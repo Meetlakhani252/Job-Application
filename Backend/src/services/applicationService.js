@@ -1,57 +1,120 @@
-const Application = require('../models/Application');
-const Opportunity = require('../models/Opportunity');
+const { supabase } = require('../config/db');
+const Opportunity = require('../models/Opportunity'); // Placeholder
 const AppError = require('../utils/AppError');
 const generateApplicationId = require('../utils/generateApplicationId');
 
 const createApplication = async ({ name, phone, email, opportunityId, resumeLink, message }) => {
-  const opportunityExists = await Opportunity.exists({ _id: opportunityId });
-  if (!opportunityExists) {
+  // Check if opportunity exists
+  const { data: opp, error: oppError } = await supabase
+    .from('opportunities')
+    .select('id')
+    .eq('id', opportunityId)
+    .single();
+
+  if (oppError || !opp) {
     throw new AppError('Opportunity not found', 404);
   }
 
-  let applicationId = generateApplicationId();
-  const collision = await Application.exists({ applicationId });
+  let applicationCode = generateApplicationId();
+  // Collision check
+  const { data: collision } = await supabase
+    .from('applications')
+    .select('id')
+    .eq('application_code', applicationCode)
+    .single();
+
   if (collision) {
-    applicationId = generateApplicationId();
+    applicationCode = generateApplicationId();
   }
 
   try {
-    const application = await Application.create({
-      applicationId,
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email.trim().toLowerCase(),
-      resumeLink: resumeLink?.trim() || undefined,
-      message: message?.trim() || undefined,
-      opportunity: opportunityId,
-    });
+    const { data, error } = await supabase
+      .from('applications')
+      .insert([{
+        application_code: applicationCode,
+        opportunity_id: opportunityId,
+        name: name.trim(),
+        phone: phone.trim(),
+        email: email.trim().toLowerCase(),
+        resume_link: resumeLink?.trim() || null,
+        message: message?.trim() || null,
+      }])
+      .select()
+      .single();
 
-    return { applicationId: application.applicationId };
-  } catch (error) {
-    if (error.code === 11000 && error.keyPattern?.email && error.keyPattern?.opportunity) {
-      throw new AppError('You have already applied to this opportunity', 409);
+    if (error) {
+      // Postgres Unique Violation error code is 23505
+      if (error.code === '23505') {
+        throw new AppError('You have already applied to this opportunity', 409);
+      }
+      throw new AppError(error.message, 500);
     }
-    throw error;
+
+    return { applicationId: data.application_code };
+  } catch (error) {
+    if (error instanceof AppError) throw error;
+    throw new AppError(error.message, 500);
   }
 };
 
 const getApplicationByApplicationId = async (applicationId) => {
-  const application = await Application.findOne({ applicationId })
-    .populate('opportunity')
-    .lean();
+  const { data, error } = await supabase
+    .from('applications')
+    .select(`
+      *,
+      opportunity (id, title, company_name)
+    `)
+    .eq('application_code', applicationId)
+    .single();
 
-  if (!application) {
+  if (error || !data) {
     throw new AppError('Application not found', 404);
   }
 
-  return application;
+  // Maintain same response shape as Mongoose .populate()
+  return {
+    id: data.id,
+    applicationId: data.application_code,
+    name: data.name,
+    phone: data.phone,
+    email: data.email,
+    resumeLink: data.resume_link,
+    message: data.message,
+    createdAt: data.created_at,
+    opportunity: {
+      _id: data.opportunity.id,
+      title: data.opportunity.title,
+      companyName: data.opportunity.company_name,
+    }
+  };
 };
 
 const listAllApplications = async () => {
-  return Application.find()
-    .sort({ createdAt: -1 })
-    .populate('opportunity', 'title companyName')
-    .lean();
+  const { data, error } = await supabase
+    .from('applications')
+    .select(`
+      *,
+      opportunity (id, title, company_name)
+    `)
+    .order('created_at', { ascending: false });
+
+  if (error) throw new AppError(error.message, 500);
+
+  return data.map(app => ({
+    id: app.id,
+    applicationId: app.application_code,
+    name: app.name,
+    phone: app.phone,
+    email: app.email,
+    resumeLink: app.resume_link,
+    message: app.message,
+    createdAt: app.created_at,
+    opportunity: {
+      _id: app.opportunity.id,
+      title: app.opportunity.title,
+      companyName: app.opportunity.company_name,
+    }
+  }));
 };
 
 module.exports = { createApplication, getApplicationByApplicationId, listAllApplications };

@@ -5,34 +5,34 @@ import styles from './Home.module.css';
 
 const FAQ_ITEMS = [
   {
-    question: 'What is Wellfound?',
+    question: 'What is Rooklet?',
     answer:
-      'Wellfound is the hiring marketplace for startups: post jobs for free with Wellfound Jobs, source with AI agents through Wellfound Reach, or get done-for-you recruiting with Wellfound Autopilot, connected to a network of 10M+ opted-in candidates.',
+      'Rooklet is the premier tech and startup job platform: discover top roles across engineering, product, and design, connect directly with founders and hiring teams, and leverage intelligent tools to streamline hiring and job hunting.',
   },
   {
-    question: 'Is Wellfound free to post jobs?',
+    question: 'Is Rooklet free to post jobs?',
     answer:
-      'Yes, startups can post unlimited jobs completely free. We also offer advanced AI sourcing and recruiting features as part of our premium tiers.',
+      'Yes, startups and companies can post roles directly. We also offer advanced talent matching and sourcing tools for high-growth hiring teams.',
   },
   {
-    question: 'Is Wellfound free for job seekers?',
+    question: 'Is Rooklet free for job seekers?',
     answer:
-      'Yes, Wellfound is 100% free for candidates. You can build a profile, browse startup roles, apply directly to hiring teams, and get matched with founders at no charge.',
+      'Yes, Rooklet is 100% free for candidates. You can build your profile, explore vetted tech and startup opportunities, apply directly, and track your applications in one seamless place.',
   },
   {
-    question: 'How many startups and candidates are on Wellfound?',
+    question: 'How many startups and candidates are on Rooklet?',
     answer:
-      'Wellfound has over 10 million registered candidate profiles and more than 27,000 active startups hiring today across tech, AI, healthtech, and fintech.',
+      'Rooklet supports thousands of top tech startups and scale-ups hiring across software engineering, AI, product, fintech, and design with a fast-growing community of candidates.',
   },
   {
-    question: 'Does Wellfound offer AI recruiting software?',
+    question: 'Does Rooklet offer AI recruiting software?',
     answer:
-      'Yes, Wellfound Reach uses autonomous AI sourcing agents that evaluate candidate criteria, match talent with hyper-personalized logic, and manage outreach workflows.',
+      'Yes, Rooklet Reach uses autonomous AI sourcing agents that evaluate candidate criteria, match talent with hyper-personalized logic, and manage outreach workflows.',
   },
   {
-    question: 'Who is Wellfound for?',
+    question: 'Who is Rooklet for?',
     answer:
-      'Wellfound is designed specifically for early-stage through pre-IPO startups looking to build agile teams, and for high-impact candidates seeking venture-backed tech roles.',
+      'Rooklet is designed specifically for early-stage through pre-IPO startups looking to build agile teams, and for high-impact candidates seeking venture-backed tech roles across all experience levels.',
   },
 ];
 
@@ -216,7 +216,7 @@ export default function Home() {
       <section className="py-14 border-y border-gray-100 bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-base sm:text-lg text-gray-700 font-medium mb-8">
-            The teams building what&apos;s next <span className="accent-italic text-black font-serif">hire on Wellfound.</span>
+            The teams building what&apos;s next <span className="accent-italic text-black font-serif">hire on Rooklet.</span>
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 lg:gap-14 opacity-85 grayscale hover:grayscale-0 transition-all duration-300">
@@ -259,7 +259,7 @@ export default function Home() {
 
           <div className="mt-8 flex items-center justify-center space-x-2 text-xs font-bold tracking-widest text-[#FF2E74] uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF2E74]" />
-            <span>27,000 More Startups Hiring on Wellfound Today</span>
+            <span>27,000 More Startups Hiring on Rooklet Today</span>
           </div>
         </div>
       </section>
@@ -277,7 +277,7 @@ export default function Home() {
                 Build the team that <span className="accent-italic text-[#FF2E74] font-serif">defines what&apos;s next.</span>
               </h2>
               <p className="text-gray-400 text-base leading-relaxed mb-8">
-                The team you hire is the company you become. Wellfound is where startup people come to be found, and where AI finds the ones who fit your roles.
+                The team you hire is the company you become. Rooklet is where startup people come to be found, and where AI finds the ones who fit your roles.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <Link
@@ -299,27 +299,27 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-10 lg:pl-6">
               <div className="border-b border-gray-800 pb-8 group">
                 <div className="text-xs font-bold tracking-wider text-gray-500 uppercase mb-2">
-                  01 &nbsp; Wellfound Jobs
+                  01 &nbsp; Rooklet Jobs
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Post once. Reach startup talent.</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Post free and get in front of 10M candidates who joined Wellfound because they want startup opportunities.
+                  Post free and get in front of candidates who joined Rooklet because they want startup opportunities.
                 </p>
               </div>
 
               <div className="border-b border-gray-800 pb-8 group">
                 <div className="text-xs font-bold tracking-wider text-gray-500 uppercase mb-2">
-                  02 &nbsp; Wellfound Reach
+                  02 &nbsp; Rooklet Reach
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Find the candidates other searches miss.</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Search 500M+ profiles, uncover adjacent experience, and run personalized outreach from your inbox.
+                  Search profiles, uncover adjacent experience, and run personalized outreach from your inbox.
                 </p>
               </div>
 
               <div className="pb-2 group">
                 <div className="text-xs font-bold tracking-wider text-gray-500 uppercase mb-2">
-                  03 &nbsp; Wellfound Autopilot
+                  03 &nbsp; Rooklet Autopilot
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Hire faster with hands-on support.</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -503,14 +503,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. WELLFOUND REACH LIVE AGENT SECTION */}
+      {/* 5. ROOKLET REACH LIVE AGENT SECTION */}
       <section className="py-20 lg:py-28 bg-[#FFFFFF] border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left */}
             <div className="lg:col-span-5">
               <div className="text-xs font-bold tracking-widest text-[#FF2E74] uppercase mb-3">
-                FEATURED · WELLFOUND REACH
+                FEATURED · ROOKLET REACH
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-950 leading-tight mb-5">
                 Reach the right candidates.
@@ -594,7 +594,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="text-xs font-bold tracking-widest text-[#FF2E74] uppercase mb-2">
-              HIRED ON WELLFOUND
+              HIRED ON ROOKLET
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-950">
               Jobs found. <span className="accent-italic text-[#FF2E74] font-serif">Teams built.</span>
@@ -609,7 +609,7 @@ export default function Home() {
                   CANDIDATE
                 </div>
                 <p className="text-base sm:text-lg text-gray-800 font-normal leading-relaxed italic">
-                  &ldquo;I got my tech job on Wellfound 4 years ago and I&apos;m still happy! Pays well, great culture, and unlimited PTO.&rdquo;
+                  &ldquo;I got my tech job on Rooklet and the experience was seamless! Pays well, great culture, and fast interview turnaround.&rdquo;
                 </p>
               </div>
             </div>
@@ -621,7 +621,7 @@ export default function Home() {
                   RECRUITER
                 </div>
                 <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed italic">
-                  &ldquo;Half of the offers I give are sourced from Wellfound. It&apos;s the best product for anyone looking for startup talent.&rdquo;
+                  &ldquo;Half of the offers I give are sourced from Rooklet. It&apos;s the best product for anyone looking for startup talent.&rdquo;
                 </p>
               </div>
             </div>
@@ -633,7 +633,7 @@ export default function Home() {
                   CANDIDATE
                 </div>
                 <p className="text-base sm:text-lg text-gray-800 font-normal leading-relaxed italic">
-                  &ldquo;I love Wellfound. I got my current job entirely through the site last year. Super easy to use and I love the UI.&rdquo;
+                  &ldquo;I love Rooklet. I got my current job entirely through the site last year. Super easy to use and I love the UI.&rdquo;
                 </p>
               </div>
             </div>
@@ -729,13 +729,13 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-gray-900">
             {/* Left Brand Info */}
             <div className="lg:col-span-4 space-y-4">
-              <Link to="/" aria-label="Wellfound Home" className="inline-block">
+              <Link to="/" aria-label="Rooklet Home" className="inline-block">
                 <span className="text-2xl font-bold tracking-tight text-white">
-                  wellfound<span className="text-[#FF2E74]">:</span>
+                  rooklet<span className="text-[#FF2E74]">:</span>
                 </span>
               </Link>
               <p className="text-gray-400 text-xs leading-relaxed max-w-xs">
-                Wellfound is the AI recruiting platform and talent marketplace for startups. Post jobs, source candidates with AI agents, or partner with a dedicated recruiter.
+                Rooklet is the modern tech and startup job platform connecting ambitious talent with leading startups and innovative companies worldwide.
               </p>
             </div>
 
@@ -766,7 +766,7 @@ export default function Home() {
             <div className="lg:col-span-2">
               <h5 className="text-white font-bold text-xs uppercase tracking-wider mb-3">Company</h5>
               <ul className="space-y-2">
-                <li><a className="hover:text-white transition-colors" href="#hero">About Wellfound</a></li>
+                <li><a className="hover:text-white transition-colors" href="#hero">About Rooklet</a></li>
                 <li><a className="hover:text-white transition-colors" href="#faq">Customer stories</a></li>
                 <li><a className="hover:text-white transition-colors" href="#faq">FAQ</a></li>
               </ul>
@@ -833,7 +833,7 @@ export default function Home() {
 
           {/* Bottom Copyright */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px]">
-            <div>© 2026 Wellfound. All rights reserved.</div>
+            <div>© 2026 Rooklet. All rights reserved.</div>
             <div className="mt-2 sm:mt-0 text-gray-500">
               The recruitment platform built for what&apos;s next.
             </div>

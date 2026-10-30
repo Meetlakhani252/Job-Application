@@ -5,7 +5,7 @@ const env = require('./config/env');
 connectDB()
   .then(() => {
     app.listen(env.PORT, () => {
-      console.error(`Server running on port ${env.PORT}`);
+      console.log(`Server running on port ${env.PORT}`);
     });
   })
   .catch((err) => {

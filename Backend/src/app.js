@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const mongoSanitize = require('express-mongo-sanitize');
 const env = require('./config/env');
 const { sessionMiddleware } = require('./config/session');
 const router = require('./routes/index');
@@ -14,12 +13,6 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-app.use((req, res, next) => {
-  if (req.body) {
-    mongoSanitize.sanitize(req.body);
-  }
-  next();
-});
 app.use(sessionMiddleware);
 
 app.use('/api', router);
