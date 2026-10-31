@@ -24,8 +24,10 @@ const listOpportunities = async ({ search, domain } = {}) => {
   if (error) throw new AppError(error.message, 500);
 
   // Map snake_case DB columns to camelCase for frontend compatibility
+  // Provide both id and _id for seamless frontend compatibility
   return data.map(item => ({
     id: item.id,
+    _id: item.id,
     title: item.title,
     companyName: item.company_name,
     type: item.type,
@@ -51,6 +53,7 @@ const getOpportunityById = async (id) => {
 
   return {
     id: data.id,
+    _id: data.id,
     title: data.title,
     companyName: data.company_name,
     type: data.type,
@@ -119,6 +122,7 @@ const updateOpportunity = async (id, updates) => {
 
   return {
     id: data.id,
+    _id: data.id,
     title: data.title,
     companyName: data.company_name,
     type: data.type,

@@ -135,11 +135,11 @@ function AdminOpportunities() {
       )}
 
       <ConfirmDialog
-        open={!!deleteTargetId}
+        isOpen={!!deleteTargetId}
         title="Delete Opportunity"
         message="Are you sure you want to delete this opportunity? This action cannot be undone."
         onConfirm={handleDelete}
-        onCancel={() => setDeleteTargetId(null)}
+        onClose={() => setDeleteTargetId(null)}
       />
 
       <Snackbar

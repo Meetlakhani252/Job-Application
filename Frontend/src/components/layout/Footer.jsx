@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
-export default function Footer() {
+export default function Footer({ userMode = false }) {
   return (
-    <footer className="w-full bg-slate-50 border-t border-slate-200/80 mt-auto pt-12 pb-14 text-slate-600">
+    <footer className={`w-full border-t mt-auto pt-12 pb-14 transition-colors ${userMode ? 'bg-slate-100 border-slate-300 text-slate-700' : 'bg-slate-50 border-slate-200/80 text-slate-600'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-200">
           {/* Brand Info */}
           <div className="md:col-span-2 flex flex-col gap-3">

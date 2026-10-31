@@ -45,18 +45,40 @@ export function AuthProvider({ children }) {
   }
 
   async function signUpUser(email, password, fullName, phone) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-          phone: phone,
-        },
-      },
-    });
-    if (error) throw error;
-    return data.user;
+    try {
+      // 1. Create account via backend admin API to bypass Supabase public email rate limits
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${apiUrl}/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, fullName, phone }),
+      });
+
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Failed to create account');
+      }
+
+      // 2. Automatically log the user in to set their session
+      return await loginUser(email, password);
+    } catch (err) {
+      // Fallback to client-side supabase signUp if server endpoint is unreachable
+      if (err.message?.includes('Failed to fetch')) {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              phone: phone,
+            },
+          },
+        });
+        if (error) throw error;
+        return data.user;
+      }
+      throw err;
+    }
   }
 
   // NEW: Send OTP for login

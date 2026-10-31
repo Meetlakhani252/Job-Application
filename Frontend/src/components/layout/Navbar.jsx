@@ -3,41 +3,61 @@ import { Link } from 'react-router-dom';
 import { Menu, X, LogOut, ShieldCheck, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 
-export default function Navbar() {
+export default function Navbar({ userMode = false }) {
   const { admin, user, logout, logoutUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-200">
+    <header className={`sticky top-0 z-50 transition-all duration-200 ${userMode ? 'bg-slate-50 border-b border-slate-200' : 'bg-white/95 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Logo & Primary Nav */}
         <div className="flex items-center space-x-10">
           <Link to="/" aria-label="Rooklet Home" className="flex items-center group">
-            <span className="text-2xl font-bold tracking-tight text-black transition-opacity group-hover:opacity-90">
+            <span className={`text-2xl font-bold tracking-tight transition-opacity group-hover:opacity-90 ${userMode ? 'text-slate-900' : 'text-black'}`}>
               rooklet<span className="text-[#FF2E74]">:</span>
             </span>
           </Link>
 
           {/* Desktop Nav Links */}
           <nav aria-label="Main Navigation" className="hidden md:flex items-center space-x-8">
-            <a
-              href="#for-companies"
-              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
-            >
-              For companies
-            </a>
-            <Link
-              to="/opportunities"
-              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
-            >
-              For job seekers
-            </Link>
-            <a
-              href="#faq"
-              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
-            >
-              FAQ
-            </a>
+            {!userMode && (
+              <>
+                <a
+                  href="#for-companies"
+                  className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+                >
+                  For companies
+                </a>
+                <Link
+                  to="/opportunities"
+                  className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+                >
+                  For job seekers
+                </Link>
+                <a
+                  href="#faq"
+                  className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+                >
+                  FAQ
+                </a>
+              </>
+            )}
+            {userMode && (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-sm font-medium text-slate-600 hover:text-[#FF2E74] transition-colors"
+                >
+                  My Applications
+                </Link>
+                <Link
+                  to="/profile"
+                  className="text-sm font-medium text-slate-600 hover:text-[#FF2E74] transition-colors"
+                >
+                  Profile Settings
+                </Link>
+              </>
+            )}
           </nav>
         </div>
 
@@ -113,27 +133,49 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-gray-100 bg-white px-4 pt-3 pb-5 space-y-3 shadow-lg">
           <div className="flex flex-col space-y-2">
-            <a
-              href="#for-companies"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
-            >
-              For companies
-            </a>
-            <Link
-              to="/opportunities"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
-            >
-              For job seekers
-            </Link>
-            <a
-              href="#faq"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
-            >
-              FAQ
-            </a>
+            {!userMode && (
+              <>
+                <a
+                  href="#for-companies"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  For companies
+                </a>
+                <Link
+                  to="/opportunities"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  For job seekers
+                </Link>
+                <a
+                  href="#faq"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  FAQ
+                </a>
+              </>
+            )}
+            {userMode && (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50 rounded-lg"
+                >
+                  My Applications
+                </Link>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-50 rounded-lg"
+                >
+                  Profile Settings
+                </Link>
+              </>
+            )}
           </div>
 
           <div className="pt-3 border-t border-gray-100 flex flex-col gap-2">

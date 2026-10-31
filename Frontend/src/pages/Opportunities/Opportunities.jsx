@@ -90,7 +90,10 @@ export default function Opportunities() {
         {loading && <Loader />}
         {!loading && error && <ErrorMessage message={error} />}
         {!loading && !error && opportunities.length === 0 && (
-          <EmptyState message="No opportunities found matching your criteria. Try adjusting your search or domain filter." />
+          <EmptyState
+            title="No opportunities found"
+            description="No opportunities found matching your criteria. Try adjusting your search or domain filter."
+          />
         )}
         {!loading && !error && opportunities.length > 0 && (
           <div className={styles.grid}>

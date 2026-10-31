@@ -6,13 +6,14 @@ import Badge from '../common/Badge.jsx';
 export default function OpportunityCard({ opportunity }) {
   if (!opportunity) return null;
 
-  const { _id, title, companyName, type, domain, location, experience } = opportunity;
+  const oppId = opportunity._id || opportunity.id;
+  const { title, companyName, type, domain, location, experience } = opportunity;
 
   const typeVariant = type === 'Job' ? 'primary' : 'secondary';
 
   return (
     <Link
-      to={`/opportunities/${_id}`}
+      to={`/opportunities/${oppId}`}
       className="group block rounded-xl border border-slate-200/90 bg-white p-5 shadow-2xs hover:border-blue-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 transition-all duration-150 flex flex-col justify-between"
     >
       <div>

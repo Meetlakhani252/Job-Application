@@ -1,10 +1,15 @@
 const { supabase } = require('../config/db');
 const AppError = require('../utils/AppError');
 const { sendSuccess } = require('../utils/response');
+const {
+  createApplication,
+  getApplicationByApplicationId,
+} = require('../services/applicationService');
+const validateApplicationBody = require('../validators/applicationValidator');
 
 exports.submitApplication = async (req, res) => {
   const userId = req.user.id;
-  const { opportunityId, message } = req.body;
+  const { opportunityId, message, resumeLink } = req.body;
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
@@ -16,29 +21,31 @@ exports.submitApplication = async (req, res) => {
     throw new AppError('User profile not found. Please complete your profile first.', 404);
   }
 
-  const { createApplication } = require('../services/applicationService');
-  try {
-    const { applicationId } = await createApplication({
-      userId,
-      name: profile.full_name,
-      phone: profile.phone,
-      email: profile.email,
-      opportunityId,
-      resumeLink: null, // Will be handled by storage upload later
-      message,
-    });
+  // Validate the application payload with profile data
+  validateApplicationBody({
+    name: profile.full_name,
+    phone: profile.phone,
+    email: profile.email,
+    opportunityId,
+  });
 
-    sendSuccess(res, { applicationId }, 'Application submitted successfully');
-  } catch (error) {
-    throw error;
-  }
+  const { applicationId } = await createApplication({
+    userId,
+    name: profile.full_name,
+    phone: profile.phone,
+    email: profile.email,
+    opportunityId,
+    resumeLink: resumeLink || null,
+    message,
+  });
+
+  sendSuccess(res, { applicationId }, 'Application submitted successfully');
 };
 
 exports.getApplication = async (req, res) => {
   const userId = req.user.id;
   const { applicationId } = req.params;
 
-  const { getApplicationByApplicationId } = require('../services/applicationService');
   const application = await getApplicationByApplicationId(userId, applicationId);
   sendSuccess(res, application);
 };

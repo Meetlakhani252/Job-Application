@@ -8,8 +8,7 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import { CloudUpload } from 'lucide-react';
-import { submitApplication } from '../../api/applicationApi.js';
-import { supabase } from '../../supabaseClient.js';
+import { submitApplication, uploadResume } from '../../api/applicationApi.js';
 
 // Application form for a specific opportunity
 function ApplyForm({ opportunityId }) {
@@ -41,23 +40,10 @@ function ApplyForm({ opportunityId }) {
     setUploading(true);
     setServerError('');
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `resumes/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('resumes')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('resumes')
-        .getPublicUrl(filePath);
-
+      const { publicUrl } = await uploadResume(file);
       setResumeUrl(publicUrl);
     } catch (err) {
-      setServerError(err.message || 'Failed to upload resume');
+      setServerError(err.response?.data?.message || err.message || 'Failed to upload resume');
     } finally {
       setUploading(false);
     }

@@ -24,9 +24,12 @@ const validateApplicationBody = (body) => {
     errors.push('Invalid email address');
   }
 
+  // Supports UUID (36 chars) or MongoDB ObjectId (24 hex chars)
+  const UUID_OR_OID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^[a-f\d]{24}$/i;
+
   if (!opportunityId || !String(opportunityId).trim()) {
     errors.push('opportunityId is required');
-  } else if (!/^[a-f\d]{24}$/i.test(String(opportunityId).trim())) {
+  } else if (!UUID_OR_OID_RE.test(String(opportunityId).trim())) {
     errors.push('Invalid opportunityId format');
   }
 
