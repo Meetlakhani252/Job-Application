@@ -1,23 +1,130 @@
 .root {
   display: flex;
   min-height: 100vh;
+  background-color: #f8fafc;
 }
 
 .drawer {
-  width: 220px;
-  flex-shrink: 0;
+  border-right: none !important;
+}
+
+.drawerHeader {
+  padding: 24px;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoIcon {
+  color: #FF2E74;
+}
+
+.logoText {
+  font-weight: 800 !important;
+  letter-spacing: -0.5px !important;
+  color: white !important;
+}
+
+.logoAccent {
+  color: #FF2E74;
+}
+
+.divider {
+  background-color: #1e293b !important;
+}
+
+.navList {
+  padding: 12px !important;
+  background-color: #0f172a;
+  min-height: calc(100vh - 200px);
+}
+
+.navItem {
+  margin-bottom: 8px !important;
+  border-radius: 12px !important;
+  color: #94a3b8 !important;
+  transition: all 0.2s ease !important;
+}
+
+.navItem:hover {
+  background-color: #1e293b !important;
+  color: white !important;
+}
+
+.navIcon {
+  color: #94a3b8 !important;
+  min-width: 40px !important;
+}
+
+.drawerFooter {
+  margin-top: auto;
+  padding: 24px;
+  background-color: #0f172a;
+  border-top: 1px solid #1e293b;
+}
+
+.logoutBtn {
+  background-color: #ef4444 !important;
+  color: white !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
 }
 
 .main {
   flex-grow: 1;
-  padding: 24px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.drawerHeader {
-  padding: 16px;
+.topBar {
+  height: 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
 }
 
-.drawerFooter {
-  padding: 16px;
+.pageTitle {
+  font-weight: 700 !important;
+  color: #1e293b !important;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #FF2E74;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.adminName {
+  color: #64748b !important;
+  font-weight: 500 !important;
+}
+
+.content {
+  padding: 32px;
+  flex-grow: 1;
 }

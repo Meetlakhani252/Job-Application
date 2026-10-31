@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, LogOut, ShieldCheck } from 'lucide-react';
+import { Menu, X, LogOut, ShieldCheck, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Navbar() {
-  const { admin, logout } = useAuth();
+  const { admin, user, logout, logoutUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -60,10 +60,27 @@ export default function Navbar() {
                 <span>Logout</span>
               </button>
             </>
+          ) : user ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-800 hover:text-black px-3 py-2 transition-colors"
+              >
+                <User className="w-4 h-4 text-blue-600" />
+                <span>My Applications</span>
+              </Link>
+              <button
+                onClick={logoutUser}
+                className="inline-flex items-center gap-1.5 text-sm font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-full transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5 text-gray-500" />
+                <span>Logout</span>
+              </button>
+            </>
           ) : (
             <>
               <Link
-                to="/admin/login"
+                to="/login"
                 className="text-sm font-semibold text-gray-800 hover:text-black px-3 py-2 transition-colors"
               >
                 Log in
@@ -141,10 +158,31 @@ export default function Navbar() {
                   <span>Logout</span>
                 </button>
               </>
+            ) : user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 rounded-lg"
+                >
+                  <User className="w-4 h-4 text-blue-600" />
+                  <span>My Applications</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    logoutUser();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-1.5 w-full py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </>
             ) : (
               <>
                 <Link
-                  to="/admin/login"
+                  to="/login"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-center py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 rounded-lg"
                 >
