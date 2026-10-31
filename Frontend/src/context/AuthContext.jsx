@@ -48,18 +48,39 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: fullName,
+          phone: phone,
+        },
+      },
     });
     if (error) throw error;
-
-    if (data.user) {
-      // Create profile record in public.profiles table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([{ id: data.user.id, email, full_name: fullName, phone }]);
-
-      if (profileError) throw profileError;
-    }
     return data.user;
+  }
+
+  // NEW: Send OTP for login
+  async function sendOtp(email) {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: window.location.origin,
+      },
+    });
+    if (error) throw error;
+    return true;
+  }
+
+  // NEW: Verify OTP and login
+  async function verifyOtp(email, token) {
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'email',
+    });
+    if (error) throw error;
+    setUser(data.session?.user || null);
+    return data.session?.user;
   }
 
   async function loginUser(email, password) {
@@ -86,7 +107,9 @@ export function AuthProvider({ children }) {
       logout: logoutAdmin,
       signUpUser,
       loginUser,
-      logoutUser
+      logoutUser,
+      sendOtp,
+      verifyOtp
     }}>
       {children}
     </AuthContext.Provider>

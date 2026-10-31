@@ -83,12 +83,12 @@ export default function Footer() {
             <Link to="/admin/login" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">
               Recruiter / Admin Login
             </Link>
-            <span className="text-sm text-slate-400 cursor-not-allowed">
+            <Link to="/privacy-policy" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">
               Privacy Policy
-            </span>
-            <span className="text-sm text-slate-400 cursor-not-allowed">
+            </Link>
+            <Link to="/terms-of-service" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">
               Terms of Service
-            </span>
+            </Link>
           </div>
         </div>
 

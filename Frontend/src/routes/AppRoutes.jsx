@@ -15,7 +15,9 @@ import AdminOpportunityForm from '../pages/admin/AdminOpportunityForm/AdminOppor
 import AdminApplications from '../pages/admin/AdminApplications/AdminApplications.jsx';
 import UserLogin from '../pages/auth/Login/Login.jsx';
 import UserSignUp from '../pages/auth/SignUp/SignUp.jsx';
+import Profile from '../pages/Profile/Profile.jsx';
 import AuthChoice from '../pages/auth/AuthChoice.jsx';
+import StaticPage from '../pages/Static/StaticPage.jsx';
 
 function AppRoutes() {
   return (
@@ -35,6 +37,7 @@ function AppRoutes() {
       {/* User Auth routes */}
       <Route path="/auth/login" element={<UserLogin />} />
       <Route path="/auth/signup" element={<UserSignUp />} />
+      <Route path="/profile" element={<Profile />} />
 
       {/* Admin login — no auth required */}
       <Route path="/admin/login" element={<AdminLogin />} />
@@ -48,6 +51,10 @@ function AppRoutes() {
           <Route path="/admin/applications" element={<AdminApplications />} />
         </Route>
       </Route>
+
+      {/* Static Info Routes */}
+      <Route path="/privacy-policy" element={<StaticPage title="Privacy Policy" content="Your privacy is important to us. We collect only the necessary information to facilitate your application process. We do not sell your data to third parties." />} />
+      <Route path="/terms-of-service" element={<StaticPage title="Terms of Service" content="By using Rooklet, you agree to our terms of service. We provide a platform to connect talent with opportunities; we are not the employers themselves." />} />
 
       {/* 404 catch-all */}
       <Route path="*" element={<NotFound />} />
