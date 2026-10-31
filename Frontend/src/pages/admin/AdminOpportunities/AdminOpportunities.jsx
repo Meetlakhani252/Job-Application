@@ -88,43 +88,47 @@ function AdminOpportunities() {
       )}
 
       {!loading && !error && opportunities.length > 0 && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
+        <TableContainer component={Paper} className={styles.tablePaper}>
+          <Table sx={{ minWidth: 650 }}>
+            <TableHead sx={{ backgroundColor: '#f8fafc' }}>
               <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Company</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Domain</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Title</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Company</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Type</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Domain</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 600, color: '#475569' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {opportunities.map((opp) => (
-                <TableRow key={opp._id} hover>
-                  <TableCell>{opp.title}</TableCell>
-                  <TableCell>{opp.companyName}</TableCell>
+                <TableRow key={opp._id || opp.id} hover>
+                  <TableCell sx={{ fontWeight: 600, color: '#0f172a' }}>{opp.title}</TableCell>
+                  <TableCell sx={{ color: '#475569' }}>{opp.companyName}</TableCell>
                   <TableCell>
                     <Chip
                       label={opp.type}
                       size="small"
                       color={opp.type === 'Job' ? 'primary' : 'secondary'}
+                      sx={{ fontWeight: 500 }}
                     />
                   </TableCell>
-                  <TableCell>{opp.domain}</TableCell>
+                  <TableCell sx={{ color: '#475569' }}>{opp.domain}</TableCell>
                   <TableCell align="right" className={styles.actions}>
                     <IconButton
                       aria-label="Edit opportunity"
-                      onClick={() => navigate(`/admin/opportunities/${opp._id}/edit`)}
+                      color="primary"
+                      size="small"
+                      onClick={() => navigate(`/admin/opportunities/${opp._id || opp.id}/edit`)}
                     >
-                      <EditIcon />
+                      <EditIcon fontSize="small" />
                     </IconButton>
                     <IconButton
                       aria-label="Delete opportunity"
                       color="error"
-                      onClick={() => setDeleteTargetId(opp._id)}
+                      size="small"
+                      onClick={() => setDeleteTargetId(opp._id || opp.id)}
                     >
-                      <DeleteIcon />
+                      <DeleteIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
                 </TableRow>

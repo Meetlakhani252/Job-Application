@@ -57,36 +57,61 @@ function AdminApplications() {
 
       {!loading && !error && applications.length > 0 && (
         <TableContainer component={Paper} className={styles.tableContainer}>
-          <Table size="small">
-            <TableHead>
+          <Table sx={{ minWidth: 800 }}>
+            <TableHead sx={{ backgroundColor: '#f8fafc' }}>
               <TableRow>
-                <TableCell>Application ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Resume</TableCell>
-                <TableCell>Message</TableCell>
-                <TableCell>Opportunity</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Application ID</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Applicant</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Contact Info</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Opportunity</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Resume</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#475569' }}>Message</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {applications.map((app) => (
-                <TableRow key={app._id} hover>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{app.applicationId}</TableCell>
-                  <TableCell>{app.name}</TableCell>
-                  <TableCell>{app.email}</TableCell>
-                  <TableCell>{app.phone}</TableCell>
+                <TableRow key={app._id || app.id} hover>
+                  <TableCell sx={{ whiteSpace: 'nowrap', fontWeight: 600, color: '#4f46e5' }}>
+                    {app.applicationId}
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, color: '#0f172a' }}>
+                    {app.name}
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.25 }}>
+                      <span style={{ fontSize: '0.875rem', color: '#1e293b' }}>{app.email}</span>
+                      <span style={{ fontSize: '0.8rem', color: '#64748b' }}>{app.phone}</span>
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ color: '#334155', fontWeight: 500 }}>
+                    {getOpportunityDisplay(app.opportunity)}
+                  </TableCell>
                   <TableCell>
                     {app.resumeLink ? (
-                      <Link href={app.resumeLink} target="_blank" rel="noopener noreferrer">
-                        View
+                      <Link
+                        href={app.resumeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 0.5,
+                          fontWeight: 600,
+                          fontSize: '0.85rem',
+                          color: '#4f46e5',
+                          textDecoration: 'none',
+                          '&:hover': { textDecoration: 'underline' },
+                        }}
+                      >
+                        View PDF
                       </Link>
                     ) : (
-                      '—'
+                      <span style={{ color: '#94a3b8' }}>—</span>
                     )}
                   </TableCell>
-                  <TableCell>{app.message || '—'}</TableCell>
-                  <TableCell>{getOpportunityDisplay(app.opportunity)}</TableCell>
+                  <TableCell sx={{ maxWidth: 220, color: '#475569', fontSize: '0.875rem' }}>
+                    {app.message || <span style={{ color: '#94a3b8' }}>—</span>}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

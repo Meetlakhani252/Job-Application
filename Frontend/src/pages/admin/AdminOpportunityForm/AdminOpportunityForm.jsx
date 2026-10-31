@@ -11,7 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DOMAINS, TYPES } from '../../../constants/index.js';
 import { getOpportunityById } from '../../../api/opportunityApi.js';
 import { createOpportunity, updateOpportunity } from '../../../api/adminApi.js';
@@ -99,112 +101,159 @@ function AdminOpportunityForm() {
 
   return (
     <Box className={styles.container}>
-      <Typography variant="h5" fontWeight="bold" mb={3}>
-        {isEdit ? 'Edit Opportunity' : 'Add Opportunity'}
-      </Typography>
+      <Button
+        startIcon={<ArrowBackIcon fontSize="small" />}
+        onClick={() => navigate('/admin')}
+        sx={{
+          mb: 2.5,
+          color: '#64748b',
+          textTransform: 'none',
+          fontSize: '0.9rem',
+          '&:hover': { color: '#0f172a', backgroundColor: '#f1f5f9' },
+        }}
+      >
+        Back to Opportunities
+      </Button>
 
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate className={styles.form}>
-        <TextField
-          label="Title"
-          fullWidth
-          {...register('title', { required: 'Title is required' })}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-        />
+      <Paper className={styles.paper}>
+        <Typography variant="h5" fontWeight="bold" mb={1} color="#0f172a">
+          {isEdit ? 'Edit Opportunity' : 'Create New Opportunity'}
+        </Typography>
+        <Typography variant="body2" color="#64748b" mb={3}>
+          {isEdit
+            ? 'Update the details for this position.'
+            : 'Fill in the information below to publish a new job or internship.'}
+        </Typography>
 
-        <TextField
-          label="Company Name"
-          fullWidth
-          {...register('companyName', { required: 'Company name is required' })}
-          error={!!errors.companyName}
-          helperText={errors.companyName?.message}
-        />
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate className={styles.form}>
+          <div className={styles.row}>
+            <TextField
+              label="Job / Internship Title"
+              fullWidth
+              placeholder="e.g. Frontend Developer Intern"
+              {...register('title', { required: 'Title is required' })}
+              error={!!errors.title}
+              helperText={errors.title?.message}
+            />
 
-        {/* Type select */}
-        <FormControl fullWidth error={!!errors.type}>
-          <InputLabel id="type-label">Type</InputLabel>
-          <Controller
-            name="type"
-            control={control}
-            rules={{ required: 'Type is required' }}
-            render={({ field }) => (
-              <Select labelId="type-label" label="Type" {...field}>
-                {TYPES.map((t) => (
-                  <MenuItem key={t} value={t}>
-                    {t}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
+            <TextField
+              label="Company Name"
+              fullWidth
+              placeholder="e.g. Acme Labs Inc."
+              {...register('companyName', { required: 'Company name is required' })}
+              error={!!errors.companyName}
+              helperText={errors.companyName?.message}
+            />
+          </div>
+
+          <div className={styles.row}>
+            {/* Type select */}
+            <FormControl fullWidth error={!!errors.type}>
+              <InputLabel id="type-label">Opportunity Type</InputLabel>
+              <Controller
+                name="type"
+                control={control}
+                rules={{ required: 'Type is required' }}
+                render={({ field }) => (
+                  <Select labelId="type-label" label="Opportunity Type" {...field}>
+                    {TYPES.map((t) => (
+                      <MenuItem key={t} value={t}>
+                        {t}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              {errors.type && <FormHelperText>{errors.type.message}</FormHelperText>}
+            </FormControl>
+
+            {/* Domain select */}
+            <FormControl fullWidth error={!!errors.domain}>
+              <InputLabel id="domain-label">Domain</InputLabel>
+              <Controller
+                name="domain"
+                control={control}
+                rules={{ required: 'Domain is required' }}
+                render={({ field }) => (
+                  <Select labelId="domain-label" label="Domain" {...field}>
+                    {DOMAINS.map((d) => (
+                      <MenuItem key={d} value={d}>
+                        {d}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              {errors.domain && <FormHelperText>{errors.domain.message}</FormHelperText>}
+            </FormControl>
+          </div>
+
+          <div className={styles.row}>
+            <TextField
+              label="Location"
+              fullWidth
+              placeholder="e.g. Remote / New York, NY"
+              {...register('location', { required: 'Location is required' })}
+              error={!!errors.location}
+              helperText={errors.location?.message}
+            />
+
+            <TextField
+              label="Experience Requirement"
+              fullWidth
+              placeholder="e.g. Fresher / 1-2 years"
+              {...register('experience', { required: 'Experience is required' })}
+              error={!!errors.experience}
+              helperText={errors.experience?.message}
+            />
+          </div>
+
+          <TextField
+            label="Application / External URL"
+            fullWidth
+            type="url"
+            placeholder="https://example.com/careers/apply"
+            {...register('applicationLink', { required: 'Application link is required' })}
+            error={!!errors.applicationLink}
+            helperText={errors.applicationLink?.message}
           />
-          {errors.type && <FormHelperText>{errors.type.message}</FormHelperText>}
-        </FormControl>
 
-        {/* Domain select */}
-        <FormControl fullWidth error={!!errors.domain}>
-          <InputLabel id="domain-label">Domain</InputLabel>
-          <Controller
-            name="domain"
-            control={control}
-            rules={{ required: 'Domain is required' }}
-            render={({ field }) => (
-              <Select labelId="domain-label" label="Domain" {...field}>
-                {DOMAINS.map((d) => (
-                  <MenuItem key={d} value={d}>
-                    {d}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
+          <TextField
+            label="Job Description & Responsibilities"
+            fullWidth
+            multiline
+            minRows={5}
+            placeholder="Outline role responsibilities, key skills, and perks..."
+            {...register('description', { required: 'Description is required' })}
+            error={!!errors.description}
+            helperText={errors.description?.message}
           />
-          {errors.domain && <FormHelperText>{errors.domain.message}</FormHelperText>}
-        </FormControl>
 
-        <TextField
-          label="Location"
-          fullWidth
-          {...register('location', { required: 'Location is required' })}
-          error={!!errors.location}
-          helperText={errors.location?.message}
-        />
-
-        <TextField
-          label="Experience"
-          fullWidth
-          placeholder="e.g. 1-2 years or Fresher"
-          {...register('experience', { required: 'Experience is required' })}
-          error={!!errors.experience}
-          helperText={errors.experience?.message}
-        />
-
-        <TextField
-          label="Description"
-          fullWidth
-          multiline
-          minRows={4}
-          {...register('description', { required: 'Description is required' })}
-          error={!!errors.description}
-          helperText={errors.description?.message}
-        />
-
-        <TextField
-          label="Application Link"
-          fullWidth
-          type="url"
-          {...register('applicationLink', { required: 'Application link is required' })}
-          error={!!errors.applicationLink}
-          helperText={errors.applicationLink?.message}
-        />
-
-        <Box className={styles.actions}>
-          <Button variant="outlined" onClick={() => navigate('/admin')} disabled={submitting}>
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" disabled={submitting}>
-            {submitting ? 'Saving…' : isEdit ? 'Update' : 'Create'}
-          </Button>
+          <Box className={styles.actions}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate('/admin')}
+              disabled={submitting}
+              sx={{ textTransform: 'none', px: 3 }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={submitting}
+              sx={{
+                textTransform: 'none',
+                px: 3.5,
+                backgroundColor: '#4f46e5',
+                '&:hover': { backgroundColor: '#4338ca' },
+              }}
+            >
+              {submitting ? 'Saving…' : isEdit ? 'Update Opportunity' : 'Publish Opportunity'}
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </Paper>
 
       <Snackbar
         open={snackbar.open}
