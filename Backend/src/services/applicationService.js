@@ -58,14 +58,25 @@ const createApplication = async ({ userId, name, phone, email, opportunityId, re
   }
 };
 
+// Helper: fetch opportunity details by id
+const fetchOpportunity = async (opportunityId) => {
+  if (!opportunityId) return null;
+  const { data } = await supabase
+    .from('opportunities')
+    .select('id, title, company_name')
+    .eq('id', opportunityId)
+    .single();
+  return data || null;
+};
+
 const getApplicationByApplicationId = async (userId, applicationId) => {
+  const clean = (applicationId || '').trim().toUpperCase();
+  const searchCode = clean.startsWith('APP-') ? clean : `APP-${clean}`;
+
   const { data, error } = await supabase
     .from('applications')
-    .select(`
-      *,
-      opportunity (id, title, company_name)
-    `)
-    .eq('application_code', applicationId)
+    .select('*')
+    .ilike('application_code', searchCode)
     .eq('user_id', userId)
     .single();
 
@@ -73,7 +84,8 @@ const getApplicationByApplicationId = async (userId, applicationId) => {
     throw new AppError('Application not found or you do not have permission to view it', 404);
   }
 
-  // Maintain same response shape as Mongoose .populate()
+  const opp = await fetchOpportunity(data.opportunity_id);
+
   return {
     id: data.id,
     applicationId: data.application_code,
@@ -83,40 +95,79 @@ const getApplicationByApplicationId = async (userId, applicationId) => {
     resumeLink: data.resume_link,
     message: data.message,
     createdAt: data.created_at,
-    opportunity: {
-      _id: data.opportunity.id,
-      title: data.opportunity.title,
-      companyName: data.opportunity.company_name,
-    }
+    opportunity: opp
+      ? { _id: opp.id, title: opp.title, companyName: opp.company_name }
+      : null,
   };
 };
 
 const listAllApplications = async () => {
   const { data, error } = await supabase
     .from('applications')
-    .select(`
-      *,
-      opportunity (id, title, company_name)
-    `)
+    .select('*')
     .order('created_at', { ascending: false });
 
   if (error) throw new AppError(error.message, 500);
 
-  return data.map(app => ({
-    id: app.id,
-    applicationId: app.application_code,
-    name: app.name,
-    phone: app.phone,
-    email: app.email,
-    resumeLink: app.resume_link,
-    message: app.message,
-    createdAt: app.created_at,
-    opportunity: {
-      _id: app.opportunity.id,
-      title: app.opportunity.title,
-      companyName: app.opportunity.company_name,
-    }
-  }));
+  // Batch-fetch all unique opportunity ids
+  const oppIds = [...new Set(data.map(a => a.opportunity_id).filter(Boolean))];
+  let oppMap = {};
+  if (oppIds.length > 0) {
+    const { data: opps } = await supabase
+      .from('opportunities')
+      .select('id, title, company_name')
+      .in('id', oppIds);
+    (opps || []).forEach(o => { oppMap[o.id] = o; });
+  }
+
+  return data.map(app => {
+    const opp = oppMap[app.opportunity_id];
+    return {
+      id: app.id,
+      applicationId: app.application_code,
+      name: app.name,
+      phone: app.phone,
+      email: app.email,
+      resumeLink: app.resume_link,
+      message: app.message,
+      status: app.status || 'Pending',
+      createdAt: app.created_at,
+      opportunity: opp
+        ? { _id: opp.id, title: opp.title, companyName: opp.company_name }
+        : null,
+    };
+  });
 };
 
-module.exports = { createApplication, getApplicationByApplicationId, listAllApplications };
+const getPublicApplicationByCode = async (applicationId) => {
+  const clean = (applicationId || '').trim().toUpperCase();
+  const searchCode = clean.startsWith('APP-') ? clean : `APP-${clean}`;
+
+  const { data, error } = await supabase
+    .from('applications')
+    .select('*')
+    .ilike('application_code', searchCode)
+    .single();
+
+  if (error || !data) {
+    throw new AppError('Application not found', 404);
+  }
+
+  const opp = await fetchOpportunity(data.opportunity_id);
+
+  return {
+    applicationId: data.application_code,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    resumeLink: data.resume_link,
+    message: data.message,
+    status: data.status || 'Pending',
+    createdAt: data.created_at,
+    opportunity: opp
+      ? { title: opp.title, companyName: opp.company_name }
+      : null,
+  };
+};
+
+module.exports = { createApplication, getApplicationByApplicationId, getPublicApplicationByCode, listAllApplications };

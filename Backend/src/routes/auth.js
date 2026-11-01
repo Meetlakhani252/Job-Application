@@ -37,6 +37,20 @@ router.post('/signup', async (req, res, next) => {
       throw new AppError(error.message, 400);
     }
 
+    // Immediately create the user's isolated profile record
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert({
+        id: data.user.id,
+        full_name: fullName.trim(),
+        phone: phone.trim(),
+        email: email.trim().toLowerCase(),
+      });
+
+    if (profileError) {
+      console.error('Failed to create profile record:', profileError.message);
+    }
+
     sendSuccess(
       res,
       { user: { id: data.user.id, email: data.user.email } },

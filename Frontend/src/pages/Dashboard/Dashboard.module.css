@@ -395,3 +395,133 @@
   color: #64748b;
   line-height: 1.4;
 }
+
+/* My Applications Section */
+.myAppsSection {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  margin-bottom: 2.5rem;
+}
+
+.myAppsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.myAppsTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.myAppsCount {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: #e0e7ff;
+  color: #4338ca;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+}
+
+.myAppsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.myAppCard {
+  border: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+  border-radius: 0.875rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.myAppCard:hover {
+  border-color: #c7d2fe;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.06);
+}
+
+@media (min-width: 640px) {
+  .myAppCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.myAppInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.myAppTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.myAppMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.myAppCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  color: #4f46e5;
+  background-color: #eef2ff;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+}
+
+.myAppActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.viewBtn:hover {
+  background-color: #4338ca;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #64748b;
+}
+
+.emptyText {
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+}

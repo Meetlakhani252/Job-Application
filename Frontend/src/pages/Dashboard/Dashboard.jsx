@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Hash,
@@ -7,45 +7,74 @@ import {
   Clock,
   ArrowRight,
   ShieldCheck,
-  ExternalLink
+  ExternalLink,
+  Calendar
 } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar.jsx';
-import Footer from '../../components/layout/Footer.jsx';
+import { getMyApplications } from '../../api/applicationApi.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 import styles from './Dashboard.module.css';
 
 const RECENT_KEY = 'rooklet_recent_app_ids';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const userKey = user?.id ? `${RECENT_KEY}_${user.id}` : RECENT_KEY;
   const [appId, setAppId] = useState('');
-  const [recentIds, setRecentIds] = useState(() => {
+  const [myApplications, setMyApplications] = useState([]);
+  const [loadingApps, setLoadingApps] = useState(true);
+  const [recentIds, setRecentIds] = useState([]);
+
+  useEffect(() => {
     try {
-      const stored = localStorage.getItem(RECENT_KEY);
+      const stored = localStorage.getItem(userKey);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return Array.isArray(parsed) ? parsed : [];
+        setRecentIds(Array.isArray(parsed) ? parsed : []);
+      } else {
+        setRecentIds([]);
       }
     } catch {
-      // Ignore local storage error
+      setRecentIds([]);
     }
-    return [];
-  });
+  }, [userKey]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getMyApplications()
+      .then((data) => {
+        if (isMounted) {
+          setMyApplications(Array.isArray(data) ? data : []);
+          setLoadingApps(false);
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching candidate applications:', err);
+        if (isMounted) {
+          setLoadingApps(false);
+        }
+      });
+    return () => { isMounted = false; };
+  }, []);
 
   const handleTrackSubmit = (e) => {
     e.preventDefault();
-    const trimmed = appId.trim();
-    if (!trimmed) return;
+    const raw = appId.trim();
+    if (!raw) return;
 
-    // Save to recent list (up to 5 unique IDs)
+    const upper = raw.toUpperCase();
+    const cleanId = upper.startsWith('APP-') ? upper : `APP-${upper}`;
+
+    // Save to user-scoped recent list (up to 5 unique IDs)
     try {
-      const updated = [trimmed, ...recentIds.filter((id) => id !== trimmed)].slice(0, 5);
-      localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
+      const updated = [cleanId, ...recentIds.filter((id) => id !== cleanId)].slice(0, 5);
+      localStorage.setItem(userKey, JSON.stringify(updated));
       setRecentIds(updated);
     } catch {
       // Ignore storage errors
     }
 
-    navigate(`/applications/${trimmed}`);
+    navigate(`/applications/${cleanId}`);
   };
 
   const handleRecentClick = (id) => {
@@ -56,7 +85,6 @@ export default function Dashboard() {
     <div className={styles.pageWrapper}>
       <div className={styles.glowOrbTop} aria-hidden="true" />
       <div className={styles.glowOrbMid} aria-hidden="true" />
-      <Navbar />
 
       <main className={styles.mainContent}>
         {/* Page Header */}
@@ -67,6 +95,72 @@ export default function Dashboard() {
             Monitor your submitted applications, view review progress, and access employer updates in one centralized space.
           </p>
         </div>
+
+        {/* My Applications Section */}
+        <section className={styles.myAppsSection} aria-label="My Applications">
+          <div className={styles.myAppsHeader}>
+            <div className="flex items-center gap-2">
+              <h2 className={styles.myAppsTitle}>My Submitted Applications</h2>
+              <span className={styles.myAppsCount}>
+                {loadingApps ? 'Loading...' : `${myApplications.length} applied`}
+              </span>
+            </div>
+            <Link to="/opportunities" className={styles.actionLink}>
+              <span>Find more roles</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {loadingApps ? (
+            <div className={styles.emptyState}>
+              <div className="animate-spin w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full mx-auto mb-2" />
+              <p className={styles.emptyText}>Retrieving your applications...</p>
+            </div>
+          ) : myApplications.length > 0 ? (
+            <div className={styles.myAppsList}>
+              {myApplications.map((app) => (
+                <div key={app.id || app.applicationId} className={styles.myAppCard}>
+                  <div className={styles.myAppInfo}>
+                    <h3 className={styles.myAppTitle}>
+                      {app.opportunity?.title || 'Applied Position'}
+                    </h3>
+                    <div className={styles.myAppMeta}>
+                      <span>{app.opportunity?.companyName || 'Rooklet Partner'}</span>
+                      <span>•</span>
+                      <span className={styles.myAppCode}>{app.applicationId}</span>
+                      {app.createdAt && (
+                        <>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            {new Date(app.createdAt).toLocaleDateString()}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className={styles.myAppActions}>
+                    <Link
+                      to={`/applications/${app.applicationId}`}
+                      className={styles.viewBtn}
+                    >
+                      <span>Track Details</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <p className={styles.emptyText}>You haven&apos;t submitted any applications yet.</p>
+              <Link to="/opportunities" className={styles.viewBtn}>
+                Browse Open Opportunities
+              </Link>
+            </div>
+          )}
+        </section>
 
         {/* Primary Track Card */}
         <div className={styles.trackCard}>
@@ -203,8 +297,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

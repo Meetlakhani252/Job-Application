@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, LogOut, ShieldCheck, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Navbar({ userMode = false }) {
+  const navigate = useNavigate();
   const { admin, user, logout, logoutUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -73,7 +74,10 @@ export default function Navbar({ userMode = false }) {
                 <span>Admin Area</span>
               </Link>
               <button
-                onClick={logout}
+                onClick={async () => {
+                  await logout();
+                  navigate('/', { replace: true });
+                }}
                 className="inline-flex items-center gap-1.5 text-sm font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-full transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5 text-gray-500" />
@@ -90,7 +94,10 @@ export default function Navbar({ userMode = false }) {
                 <span>My Applications</span>
               </Link>
               <button
-                onClick={logoutUser}
+                onClick={async () => {
+                  await logoutUser();
+                  navigate('/', { replace: true });
+                }}
                 className="inline-flex items-center gap-1.5 text-sm font-medium border border-gray-200 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-full transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5 text-gray-500" />
@@ -190,9 +197,10 @@ export default function Navbar({ userMode = false }) {
                   <span>Admin Area</span>
                 </Link>
                 <button
-                  onClick={() => {
-                    logout();
+                  onClick={async () => {
+                    await logout();
                     setIsMobileMenuOpen(false);
+                    navigate('/', { replace: true });
                   }}
                   className="flex items-center justify-center gap-1.5 w-full py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
                 >
@@ -211,9 +219,10 @@ export default function Navbar({ userMode = false }) {
                   <span>My Applications</span>
                 </Link>
                 <button
-                  onClick={() => {
-                    logoutUser();
+                  onClick={async () => {
+                    await logoutUser();
                     setIsMobileMenuOpen(false);
+                    navigate('/', { replace: true });
                   }}
                   className="flex items-center justify-center gap-1.5 w-full py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
                 >

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -8,9 +7,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
-import { User, MapPin, GraduationCap, Award, Link as LinkIcon } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar.jsx';
-import Footer from '../../components/layout/Footer.jsx';
+import { User, Phone, MapPin, GraduationCap, Award, Link as LinkIcon } from 'lucide-react';
 import Loader from '../../components/common/Loader.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { supabase } from '../../supabaseClient.js';
@@ -41,20 +38,41 @@ export default function Profile() {
           .eq('id', user.id)
           .single();
 
-        if (error) throw error;
-        if (data) {
+        if (error) {
+          // If profile record doesn't exist yet, populate with user signup metadata
           setFormData({
-            full_name: data.full_name || '',
-            phone: data.phone || '',
+            full_name: user.user_metadata?.full_name || '',
+            phone: user.user_metadata?.phone || '',
+            address: '',
+            education: '',
+            skills: '',
+            portfolio_link: '',
+            linkedin_url: '',
+          });
+        } else if (data) {
+          setFormData({
+            full_name: data.full_name || user.user_metadata?.full_name || '',
+            phone: data.phone || user.user_metadata?.phone || '',
             address: data.address || '',
             education: data.education || '',
-            skills: data.skills ? data.skills.join(', ') : '',
+            skills: Array.isArray(data.skills)
+              ? data.skills.join(', ')
+              : (data.skills || ''),
             portfolio_link: data.portfolio_link || '',
             linkedin_url: data.linkedin_url || '',
           });
         }
       } catch (err) {
         console.error('Error fetching profile:', err);
+        setFormData({
+          full_name: user?.user_metadata?.full_name || '',
+          phone: user?.user_metadata?.phone || '',
+          address: '',
+          education: '',
+          skills: '',
+          portfolio_link: '',
+          linkedin_url: '',
+        });
       } finally {
         setLoading(false);
       }
@@ -74,7 +92,9 @@ export default function Profile() {
           phone: formData.phone,
           address: formData.address,
           education: formData.education,
-          skills: formData.skills.split(',').map(s => s.trim()).filter(Boolean),
+          skills: typeof formData.skills === 'string'
+            ? formData.skills.split(',').map(s => s.trim()).filter(Boolean)
+            : [],
           portfolio_link: formData.portfolio_link,
           linkedin_url: formData.linkedin_url,
           email: user.email,
@@ -94,7 +114,6 @@ export default function Profile() {
 
   return (
     <Box className={styles.pageWrapper}>
-      <Navbar />
       <Container maxWidth="md" className={styles.container}>
         <Paper className={styles.profileCard} elevation={0}>
           <Box className={styles.profileHeader}>
@@ -197,7 +216,6 @@ export default function Profile() {
           </Box>
         </Paper>
       </Container>
-      <Footer />
     </Box>
   );
 }

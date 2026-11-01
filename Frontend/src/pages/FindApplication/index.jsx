@@ -16,9 +16,11 @@ function FindApplication() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const trimmed = applicationId.trim();
-    if (trimmed) {
-      navigate(`/applications/${trimmed}`);
+    const raw = applicationId.trim();
+    if (raw) {
+      const upper = raw.toUpperCase();
+      const code = upper.startsWith('APP-') ? upper : `APP-${upper}`;
+      navigate(`/applications/${code}`);
     }
   }
 

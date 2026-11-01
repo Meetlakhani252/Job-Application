@@ -20,7 +20,14 @@ export async function submitApplication(data) {
 }
 
 // Look up an application by its unique applicationId string (e.g. APP-XXXXXX)
+// Uses the public endpoint — no auth required; the application code acts as the access token
 export async function getApplicationById(applicationId) {
-  const res = await axiosInstance.get(`/applications/${applicationId}`);
+  const res = await axiosInstance.get(`/applications/public/${applicationId}`);
+  return res.data.data;
+}
+
+// Fetch all applications submitted by the logged-in candidate
+export async function getMyApplications() {
+  const res = await axiosInstance.get('/applications/my');
   return res.data.data;
 }

@@ -21,8 +21,22 @@ ALTER TABLE applications ADD CONSTRAINT unique_user_opportunity UNIQUE (user_id,
 
 -- 5. Enable Row Level Security (RLS)
 ALTER TABLE applications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
--- Policy: Users can only see their own applications
+-- Profiles Policies: Users can view, insert, and update ONLY their own profile
+CREATE POLICY "Users can view own profile"
+ON profiles FOR SELECT
+USING (auth.uid() = id);
+
+CREATE POLICY "Users can insert own profile"
+ON profiles FOR INSERT
+WITH CHECK (auth.uid() = id);
+
+CREATE POLICY "Users can update own profile"
+ON profiles FOR UPDATE
+USING (auth.uid() = id);
+
+-- Applications Policies: Users can only see their own applications
 CREATE POLICY "Users can view own applications"
 ON applications FOR SELECT
 USING (auth.uid() = user_id);

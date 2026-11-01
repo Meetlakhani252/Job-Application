@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const multer = require('multer');
-const { submitApplication, getApplication, listMyApplications } = require('../controllers/applicationController');
+const { submitApplication, getApplication, getPublicApplication, listMyApplications } = require('../controllers/applicationController');
 const requireUser = require('../middleware/requireUser');
 const { supabase } = require('../config/db');
 const AppError = require('../utils/AppError');
@@ -52,6 +52,9 @@ router.post('/upload-resume', requireUser, upload.single('resume'), async (req, 
     next(err);
   }
 });
+
+// Public: look up any application by its code (no auth required – code acts as token)
+router.get('/public/:applicationId', getPublicApplication);
 
 // Only authenticated users can submit applications or track them
 router.post('/', requireUser, submitApplication);

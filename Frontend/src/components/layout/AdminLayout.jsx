@@ -33,6 +33,11 @@ function AdminLayout() {
     ? 'Edit Opportunity'
     : 'Opportunity Listings';
 
+  async function handleLogout() {
+    await logout();
+    navigate('/', { replace: true });
+  }
+
   return (
     <div className={styles.root}>
       {/* Sidebar Drawer */}
@@ -104,7 +109,7 @@ function AdminLayout() {
             fullWidth
             startIcon={<LogoutIcon fontSize="small" />}
             className={styles.logoutBtn}
-            onClick={logout}
+            onClick={handleLogout}
           >
             Sign Out
           </Button>

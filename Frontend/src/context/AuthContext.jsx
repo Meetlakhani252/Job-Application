@@ -40,12 +40,23 @@ export function AuthProvider({ children }) {
   }
 
   async function logoutAdmin() {
-    await adminApi.logout();
-    setAdmin(null);
+    try {
+      await adminApi.logout();
+    } finally {
+      setAdmin(null);
+    }
   }
 
   async function signUpUser(email, password, fullName, phone) {
     try {
+      // 0. Ensure any existing session or cached data from a previous user is wiped
+      try {
+        await supabase.auth.signOut();
+        localStorage.removeItem('rooklet_recent_app_ids');
+      } catch {
+        // Ignore cleanup errors
+      }
+
       // 1. Create account via backend admin API to bypass Supabase public email rate limits
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const response = await fetch(`${apiUrl}/auth/signup`, {
@@ -116,8 +127,12 @@ export function AuthProvider({ children }) {
   }
 
   async function logoutUser() {
-    await supabase.auth.signOut();
-    setUser(null);
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      localStorage.removeItem('rooklet_recent_app_ids');
+      setUser(null);
+    }
   }
 
   return (
