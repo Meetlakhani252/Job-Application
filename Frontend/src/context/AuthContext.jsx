@@ -58,7 +58,9 @@ export function AuthProvider({ children }) {
       }
 
       // 1. Create account via backend admin API to bypass Supabase public email rate limits
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const cleanUrl = rawUrl.replace(/\/+$/, '');
+      const apiUrl = cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
       const response = await fetch(`${apiUrl}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
