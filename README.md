@@ -186,16 +186,3 @@ A full-stack web application built for students and early-career talent to disco
 | `GET` | `/api/admin/applications` | View all candidate submissions across all listings | Admin (Session) |
 
 ---
-
-## 📋 Evaluation Checklist & Deliverables
-
-- [x] **Source Code:** Complete frontend and backend codebase following clean architecture and separation of concerns.
-- [x] **Database Structure:** Detailed schema design and ERD available at [`docs/database/schema.md`](docs/database/schema.md).
-- [x] **Setup & Instructions:** Fully documented in `README.md` with environment templates.
-- [x] **Responsive UI & Accessibility:** Designed with CSS Modules and clean layout hierarchy across desktop and mobile.
-- [x] **Security:** Protected routes, parameterized database queries, hashed credentials, and storage RLS protection.
-
----
-
-## 📄 License
-This project was developed as an Internship Mini Project assignment. All rights reserved.
